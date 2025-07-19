@@ -1,0 +1,19 @@
+{
+  "name": "auto-rule-submit",
+  "version": "1.0.0",
+  "description": "一个简单的命令行工具",
+  "main": "src/index.js",
+  "bin": {
+    "auto-rule-submit": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": ["cli", "command-line", "tool"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "@octokit/rest": "^20.0.2"
+  }
+}
