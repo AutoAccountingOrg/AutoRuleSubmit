@@ -1,34 +1,54 @@
-name: Test If Issue is adapted
+name: Test Issue Adaptation
 on:
+  workflow_dispatch:
+    inputs:
+      commit_hash:
+        description: 'Commit hash to test'
+        required: true
+        type: string
   issues:
     types:
       - opened
       - reopened
 
 jobs:
-  extract_label:
+  test-issues:
     runs-on: ubuntu-latest
     permissions:
       issues: write
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
-      - name: Install dependencies with Yarn
+      - name: Install dependencies
+        run: npm install
+
+      - name: Checkout specific commit
+        if: github.event_name == 'workflow_dispatch'
         run: |
-          yarn add @octokit/rest
-          node ./.github/workflows/testRule.js
+          git checkout ${{ github.event.inputs.commit_hash }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Test single issue (when triggered by issue event)
+        if: github.event_name == 'issues'
+        run: |
+          node src/index.js test ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test all open issues (when triggered by manual dispatch)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          node src/index.js test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

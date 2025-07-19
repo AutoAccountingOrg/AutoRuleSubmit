@@ -2,6 +2,7 @@
 
 const { Command } = require('commander');
 const IssueRenamer = require('./issue-rename');
+const IssueTester = require('./issue-test');
 
 const program = new Command();
 
@@ -52,6 +53,47 @@ program
     
     // 执行重命名
     const success = await renamer.renameIssue(parseInt(issue));
+    
+    if (!success) {
+      process.exit(1);
+    }
+  });
+
+program
+  .command('test')
+  .description('测试issue内容')
+  .argument('[issue]', 'issue编号（可选，不提供则测试所有open的issues）')
+  .option('-t, --token <token>', 'GitHub TOKEN', process.env.GITHUB_TOKEN)
+  .action(async (issue, options) => {
+    // 硬编码仓库信息
+    const owner = 'AutoAccountingOrg';
+    const repo = 'AutoRule';
+    
+    // 检查必要的环境变量
+    if (!options.token) {
+      console.error('❌ 错误: 缺少 GITHUB_TOKEN 环境变量');
+      console.log('请设置环境变量: export GITHUB_TOKEN=your_token');
+      process.exit(1);
+    }
+
+    console.log(`🔧 配置信息:`);
+    console.log(`  仓库: ${owner}/${repo}`);
+    if (issue) {
+      console.log(`  Issue: #${issue}`);
+    } else {
+      console.log(`  测试所有open的issues`);
+    }
+
+    // 创建测试器实例
+    const tester = new IssueTester(options.token, owner, repo);
+    
+    // 执行测试
+    let success;
+    if (issue) {
+      success = await tester.testIssue(parseInt(issue));
+    } else {
+      success = await tester.testAllIssues();
+    }
     
     if (!success) {
       process.exit(1);
