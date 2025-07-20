@@ -1,20 +1,9 @@
 name: Release Automation
 
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: '版本标签 (例如: v1.0.0)'
-        required: true
-        type: string
-      from_commit:
-        description: '起始commit hash'
-        required: true
-        type: string
-      to_commit:
-        description: '目标commit hash'
-        required: true
-        type: string
+  repository_dispatch:
+    types: [ tag-pushed ]
+
 
 
 jobs:
@@ -36,10 +25,10 @@ jobs:
         
       - name: 执行Release流程
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_GITHUB_TOKEN }}
+          ACCESS_GITHUB_TOKEN: ${{ secrets.ACCESS_GITHUB_TOKEN }}
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
         run: |
           node src/index.js release \
-            "${{ inputs.tag }}" \
-            "${{ inputs.from_commit }}" \
-            "${{ inputs.to_commit }}"
+            "${{ github.event.client_payload.tag_name }}" \
+            "${{ github.event.client_payload.previous_tag_commit }}" \
+            "${{ github.event.client_payload.current_tag_commit }}"

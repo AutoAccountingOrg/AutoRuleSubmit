@@ -42,6 +42,9 @@ class Release {
     this.token = token;
     this.owner = owner;
     this.repo = repo;
+
+    this.runInRepo = "AutoRuleSubmit"
+
     this.octokit = new Octokit({ auth: token });
     
     // 统一的规则配置
@@ -252,7 +255,7 @@ class Release {
     try {
       const response = await this.octokit.repos.createRelease({
         owner: this.owner,
-        repo: this.repo,
+        repo: this.runInRepo,
         tag_name: tag,
         name: `Release ${tag}`,
         body: changelog,
@@ -274,9 +277,9 @@ class Release {
     try {
       const response = await this.octokit.git.createRef({
         owner: this.owner,
-        repo: this.repo,
+        repo: this.runInRepo,
         ref: `refs/tags/${tag}`,
-        sha: commitHash
+      //  sha: commitHash
       });
 
       console.log('✅ Tag创建成功');
