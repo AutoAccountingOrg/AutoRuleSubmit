@@ -173,33 +173,10 @@ class Release {
       
       // 添加构建时间
       form.append('buildTime', new Date().toISOString());
-      
-      // 添加仓库信息
-      form.append('repo', `${this.owner}/${this.repo}`);
-      
-      // 添加commit统计信息
-      form.append('commitCount', commits.length.toString());
-      
-      // 添加commit列表（JSON格式）
-      form.append('commits', JSON.stringify(commits));
-      
-      // 添加包文件大小
-      const stats = fs.statSync(packagePath);
-      form.append('packageSize', stats.size.toString());
-      
-      // 添加包文件MD5（可选）
-      const crypto = require('crypto');
-      const fileBuffer = fs.readFileSync(packagePath);
-      const hashSum = crypto.createHash('md5');
-      hashSum.update(fileBuffer);
-      form.append('packageMD5', hashSum.digest('hex'));
+      form.append('token', uploadToken);
 
       const response = await new Promise((resolve, reject) => {
-        form.submit(uploadUrl, {
-          headers: {
-            'Authorization': `Bearer ${uploadToken}`
-          }
-        }, (err, res) => {
+        form.submit(uploadUrl, (err, res) => {
           if (err) reject(err);
           else resolve(res);
         });
