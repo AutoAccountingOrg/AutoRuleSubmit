@@ -92,8 +92,9 @@ program
   .argument('<tag>', '版本标签')
   .argument('<from-commit>', '起始commit hash')
   .argument('<to-commit>', '目标commit hash')
+    .argument('<sha>', '当前仓库 hash')
   .option('-t, --token <token>', 'GitHub TOKEN', process.env.ACCESS_GITHUB_TOKEN)
-  .action(async (tag, fromCommit, toCommit, options) => {
+  .action(async (tag, fromCommit, toCommit,sha, options) => {
     // 硬编码仓库信息
     const owner = 'AutoAccountingOrg';
     const repo = 'AutoRule';
@@ -110,12 +111,12 @@ program
     console.log(`  版本标签: ${tag}`);
     console.log(`  起始commit: ${fromCommit}`);
     console.log(`  目标commit: ${toCommit}`);
-
+      console.log(`  当前: ${sha}`);
     // 创建发布器实例
     const release = new Release(options.token, owner, repo);
     
     // 执行发布流程
-    const success = await release.executeRelease(tag, fromCommit, toCommit);
+    const success = await release.executeRelease(tag, fromCommit, toCommit,sha);
     
     if (!success) {
       process.exit(1);

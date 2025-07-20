@@ -31,4 +31,5 @@ jobs:
           node src/index.js release \
             "${{ github.event.client_payload.tag_name }}" \
             "${{ github.event.client_payload.previous_tag_commit }}" \
-            "${{ github.event.client_payload.current_tag_commit }}"
+            "${{ github.event.client_payload.current_tag_commit }}" \
+            "${{ github.sha }}"

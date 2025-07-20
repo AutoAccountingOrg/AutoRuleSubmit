@@ -291,7 +291,7 @@ class Release {
   }
 
   // 创建GitHub release
-  async createRelease(tag, changelog) {
+  async createRelease(tag, changelog,sha) {
     console.log(`🏷️ 正在创建release: ${tag}`);
     try {
       const response = await this.octokit.repos.createRelease({
@@ -301,7 +301,8 @@ class Release {
         name: `Release ${tag}`,
         body: changelog,
         draft: false,
-        prerelease: false
+        prerelease: false,
+        sha:sha
       });
 
       console.log('✅ Release创建成功');
@@ -313,14 +314,14 @@ class Release {
   }
 
   // 创建tag
-  async createTag(tag, commitHash) {
+  async createTag(tag, sha) {
     console.log(`🏷️ 正在创建tag: ${tag}`);
     try {
       const response = await this.octokit.git.createRef({
         owner: this.owner,
         repo: this.runInRepo,
         ref: `refs/tags/${tag}`,
-      //  sha: commitHash
+       sha: sha
       });
 
       console.log('✅ Tag创建成功');
@@ -332,7 +333,7 @@ class Release {
   }
 
   // 执行完整的release流程
-  async executeRelease(tag, fromCommit, toCommit) {
+  async executeRelease(tag, fromCommit, toCommit,sha) {
     let repoPath = null;
     let packagePath = null;
     
@@ -360,10 +361,10 @@ class Release {
       await this.uploadPackage(packagePath, tag, changelog, commits);
       
       // 8. 创建tag
-      await this.createTag(tag, toCommit);
+      await this.createTag(tag, sha);
       
       // 9. 创建release
-      await this.createRelease(tag, changelog);
+      await this.createRelease(tag, changelog,sha);
       
       console.log('🎉 Release流程完成！');
       return true;
