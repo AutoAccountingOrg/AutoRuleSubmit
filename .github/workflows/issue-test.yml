@@ -32,13 +32,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Checkout specific commit
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          git checkout ${{ github.event.inputs.commit_hash }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Test single issue (when triggered by issue event)
         if: github.event_name == 'issues'
         run: |
