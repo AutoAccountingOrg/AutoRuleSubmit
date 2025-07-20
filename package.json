@@ -7,7 +7,8 @@
     "auto-rule-submit": "./src/index.js"
   },
   "scripts": {
-    "start": "node src/index.js"
+    "test-issue": "act issues -j test-issues -e events/issue_opened.json",
+    "rename-issue": "act issues -j rename_issue -e events/issue_opened.json"
   },
   "keywords": ["cli", "command-line", "tool"],
   "author": "",
