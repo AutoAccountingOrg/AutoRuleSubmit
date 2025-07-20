@@ -37,7 +37,6 @@ jobs:
       - name: 执行Release流程
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          UPLOAD_URL: "https://your-upload-server.com/upload"
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
         run: |
           node src/index.js release \
