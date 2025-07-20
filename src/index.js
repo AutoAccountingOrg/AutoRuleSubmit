@@ -17,7 +17,7 @@ program
   .command('rename')
   .description('重命名issue标题')
   .argument('<issue>', 'issue编号')
-  .option('-t, --token <token>', 'GitHub TOKEN', process.env.GITHUB_TOKEN)
+  .option('-t, --token <token>', 'GitHub TOKEN', process.env.ACCESS_GITHUB_TOKEN)
   .action(async (issue, options) => {
     // 硬编码仓库信息
     const owner = 'AutoAccountingOrg';
@@ -25,8 +25,8 @@ program
     
     // 检查必要的环境变量
     if (!options.token) {
-      console.error('❌ 错误: 缺少 GITHUB_TOKEN 环境变量');
-      console.log('请设置环境变量: export GITHUB_TOKEN=your_token');
+      console.error('❌ 错误: 缺少 ACCESS_GITHUB_TOKEN 环境变量');
+      console.log('请设置环境变量: export ACCESS_GITHUB_TOKEN=your_token');
       process.exit(1);
     }
 
@@ -49,7 +49,7 @@ program
   .command('test')
   .description('测试issue内容')
   .argument('[issue]', 'issue编号（可选，不提供则测试所有open的issues）')
-  .option('-t, --token <token>', 'GitHub TOKEN', process.env.GITHUB_TOKEN)
+  .option('-t, --token <token>', 'GitHub TOKEN', process.env.ACCESS_GITHUB_TOKEN)
   .action(async (issue, options) => {
     // 硬编码仓库信息
     const owner = 'AutoAccountingOrg';
@@ -57,8 +57,8 @@ program
     
     // 检查必要的环境变量
     if (!options.token) {
-      console.error('❌ 错误: 缺少 GITHUB_TOKEN 环境变量');
-      console.log('请设置环境变量: export GITHUB_TOKEN=your_token');
+      console.error('❌ 错误: 缺少 ACCESS_GITHUB_TOKEN 环境变量');
+      console.log('请设置环境变量: export ACCESS_GITHUB_TOKEN=your_token');
       process.exit(1);
     }
 
@@ -92,7 +92,7 @@ program
   .argument('<tag>', '版本标签')
   .argument('<from-commit>', '起始commit hash')
   .argument('<to-commit>', '目标commit hash')
-  .option('-t, --token <token>', 'GitHub TOKEN', process.env.GITHUB_TOKEN)
+  .option('-t, --token <token>', 'GitHub TOKEN', process.env.ACCESS_GITHUB_TOKEN)
   .action(async (tag, fromCommit, toCommit, options) => {
     // 硬编码仓库信息
     const owner = 'AutoAccountingOrg';
@@ -100,8 +100,8 @@ program
     
     // 检查必要的环境变量
     if (!options.token) {
-      console.error('❌ 错误: 缺少 GITHUB_TOKEN 环境变量');
-      console.log('请设置环境变量: export GITHUB_TOKEN=your_token');
+      console.error('❌ 错误: 缺少 ACCESS_GITHUB_TOKEN 环境变量');
+      console.log('请设置环境变量: export ACCESS_GITHUB_TOKEN=your_token');
       process.exit(1);
     }
 

@@ -37,11 +37,11 @@ jobs:
         run: |
           node src/index.js test ${{ github.event.issue.number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_GITHUB_TOKEN }}
 
       - name: Test all open issues (when triggered by manual dispatch)
         if: github.event_name == 'workflow_dispatch'
         run: |
           node src/index.js test
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.ACCESS_GITHUB_TOKEN }}
