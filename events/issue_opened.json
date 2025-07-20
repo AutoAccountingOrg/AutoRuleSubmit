@@ -1,0 +1,17 @@
+{
+  "action": "opened",
+  "issue": {
+    "number": 1,
+    "title": "测试 issue 打开",
+    "body": "用 act 本地模拟 issues: opened 事件"
+  },
+  "repository": {
+    "name": "你的仓库名",
+    "owner": {
+      "login": "你的 GitHub 用户名"
+    }
+  },
+  "sender": {
+    "login": "你的 GitHub 用户名"
+  }
+}
