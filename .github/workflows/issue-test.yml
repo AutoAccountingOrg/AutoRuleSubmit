@@ -1,15 +1,7 @@
 name: Test Issue Adaptation
 on:
-  workflow_dispatch:
-    inputs:
-      commit_hash:
-        description: 'Commit hash to test'
-        required: true
-        type: string
-  issues:
-    types:
-      - opened
-      - reopened
+  repository_dispatch:
+    types: [cross-repo-trigger]   # 和下面发送的时候保持一致
 
 jobs:
   test-issues:
