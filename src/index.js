@@ -93,7 +93,6 @@ program
   .argument('<from-commit>', '起始commit hash')
   .argument('<to-commit>', '目标commit hash')
   .option('-t, --token <token>', 'GitHub TOKEN', process.env.GITHUB_TOKEN)
-  .option('-u, --upload-url <url>', '构建包上传地址')
   .action(async (tag, fromCommit, toCommit, options) => {
     // 硬编码仓库信息
     const owner = 'AutoAccountingOrg';
@@ -111,15 +110,12 @@ program
     console.log(`  版本标签: ${tag}`);
     console.log(`  起始commit: ${fromCommit}`);
     console.log(`  目标commit: ${toCommit}`);
-    if (options.uploadUrl) {
-      console.log(`  上传地址: ${options.uploadUrl}`);
-    }
 
     // 创建发布器实例
     const release = new Release(options.token, owner, repo);
     
     // 执行发布流程
-    const success = await release.executeRelease(tag, fromCommit, toCommit, options.uploadUrl);
+    const success = await release.executeRelease(tag, fromCommit, toCommit);
     
     if (!success) {
       process.exit(1);

@@ -146,8 +146,18 @@ class Release {
   }
 
   // 推送构建包、更新日志和版本信息到指定地址
-  async uploadPackage(packagePath, uploadUrl, tag, changelog, commits) {
+  async uploadPackage(packagePath, tag, changelog, commits) {
     console.log('📤 正在上传构建包和相关信息...');
+    
+    // 硬编码的上传地址
+    const uploadUrl = process.env.UPLOAD_URL || 'https://license.ez-book.org/github';
+    const uploadToken = process.env.UPLOAD_TOKEN;
+    
+    if (!uploadToken) {
+      console.log('⚠️ 未提供UPLOAD_TOKEN环境变量，跳过上传');
+      return true;
+    }
+    
     try {
       const FormData = require('form-data');
       const form = new FormData();
@@ -185,7 +195,11 @@ class Release {
       form.append('packageMD5', hashSum.digest('hex'));
 
       const response = await new Promise((resolve, reject) => {
-        form.submit(uploadUrl, (err, res) => {
+        form.submit(uploadUrl, {
+          headers: {
+            'Authorization': `Bearer ${uploadToken}`
+          }
+        }, (err, res) => {
           if (err) reject(err);
           else resolve(res);
         });
@@ -297,7 +311,7 @@ class Release {
   }
 
   // 执行完整的release流程
-  async executeRelease(tag, fromCommit, toCommit, uploadUrl) {
+  async executeRelease(tag, fromCommit, toCommit) {
     let repoPath = null;
     let packagePath = null;
     
@@ -322,11 +336,7 @@ class Release {
       packagePath = await this.packageDist(repoPath, tag);
       
       // 7. 上传构建包
-      if (uploadUrl) {
-        await this.uploadPackage(packagePath, uploadUrl, tag, changelog, commits);
-      } else {
-        console.log('⚠️ 未提供上传地址，跳过上传');
-      }
+      await this.uploadPackage(packagePath, tag, changelog, commits);
       
       // 8. 创建tag
       await this.createTag(tag, toCommit);

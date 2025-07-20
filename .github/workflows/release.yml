@@ -15,10 +15,7 @@ on:
         description: '目标commit hash'
         required: true
         type: string
-      upload_url:
-        description: '上传地址 (可选)'
-        required: false
-        type: string
+
 
 jobs:
   release:
@@ -40,9 +37,10 @@ jobs:
       - name: 执行Release流程
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          UPLOAD_URL: "https://your-upload-server.com/upload"
+          UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
         run: |
           node src/index.js release \
             "${{ inputs.tag }}" \
             "${{ inputs.from_commit }}" \
-            "${{ inputs.to_commit }}" \
-            ${{ inputs.upload_url && format('--upload-url {0}', inputs.upload_url) || '' }}
+            "${{ inputs.to_commit }}"
