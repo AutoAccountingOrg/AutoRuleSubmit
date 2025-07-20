@@ -153,7 +153,7 @@ class Release {
     console.log('📤 正在上传构建包和相关信息...');
     
     // 硬编码的上传地址
-    const uploadUrl =  'https://license.ez-book.org/github';
+    const uploadUrl = 'https://license.ez-book.org/github';
     const uploadToken = process.env.UPLOAD_TOKEN;
     
     if (!uploadToken) {
@@ -162,6 +162,8 @@ class Release {
     }
     
     try {
+      // 使用 node-fetch 进行更可靠的 HTTP 请求
+      const fetch = require('node-fetch');
       const FormData = require('form-data');
       const form = new FormData();
       
@@ -178,21 +180,58 @@ class Release {
       form.append('buildTime', new Date().toISOString());
       form.append('token', uploadToken);
 
-      const response = await new Promise((resolve, reject) => {
-        form.submit(uploadUrl, (err, res) => {
-          if (err) reject(err);
-          else resolve(res);
-        });
+      // 添加额外的元数据
+      form.append('commitCount', commits.length.toString());
+      form.append('commits', JSON.stringify(commits));
+      
+      // 获取文件大小
+      const stats = fs.statSync(packagePath);
+      form.append('packageSize', stats.size.toString());
+      
+      // 计算文件MD5
+      const crypto = require('crypto');
+      const fileBuffer = fs.readFileSync(packagePath);
+      const hash = crypto.createHash('md5');
+      hash.update(fileBuffer);
+      const md5 = hash.digest('hex');
+      form.append('packageMD5', md5);
+      
+      // 添加仓库信息
+      form.append('repo', `${this.owner}/${this.repo}`);
+
+      console.log('📡 发送请求到:', uploadUrl);
+      console.log('📦 文件大小:', stats.size, '字节');
+      console.log('🔐 MD5:', md5);
+      
+      const response = await fetch(uploadUrl, {
+        method: 'POST',
+        body: form,
+        headers: {
+          ...form.getHeaders(),
+          'User-Agent': 'AutoRuleSubmit-Release/1.0'
+        },
+        timeout: 60000 // 60秒超时
       });
 
+      console.log('📡 响应状态:', response.status, response.statusText);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      const responseText = await response.text();
+      console.log('📡 响应内容:', responseText);
+
       console.log('✅ 上传成功');
-      console.log(`📦 构建包: ${packagePath} (${(stats.size / 1024 / 1024).toFixed(2)} MB)`);
+      console.log(`📦 构建包: ${packagePath}`);
       console.log(`🏷️ 版本号: ${tag}`);
       console.log(`📝 更新日志: ${changelog.length} 字符`);
       console.log(`📊 Commit数量: ${commits.length}`);
       return true;
     } catch (error) {
       console.error('❌ 上传失败:', error.message);
+      console.error('❌ 错误详情:', error.stack);
       throw error;
     }
   }
