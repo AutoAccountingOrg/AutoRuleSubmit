@@ -255,7 +255,9 @@ class Release {
       );
       
       if (matchedRule) {
-        changelog[matchedRule.category].push(message);
+        // 去掉commit message中的前缀（如 feat:, fix: 等）
+        const cleanMessage = message.replace(new RegExp(`^${matchedRule.pattern}\\s*`, 'i'), '');
+        changelog[matchedRule.category].push(cleanMessage);
       } else {
         changelog.other.push(message);
       }
