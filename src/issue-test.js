@@ -2,8 +2,6 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
-const { promisify } = require('util');
-const { Octokit } = require('@octokit/rest');
 
 // 创建一个支持选项的execAsync
 const execAsync = (command, options = {}) => {
@@ -19,43 +17,45 @@ const execAsync = (command, options = {}) => {
 };
 
 class IssueTester {
-  constructor(token, owner, repo) {
+  constructor(token, issueOwner, issueRepo, testOwner, testRepo) {
     this.token = token;
-    this.owner = owner;
-    this.repo = repo;
+    this.issueOwner = issueOwner;  // issue来源仓库的owner
+    this.issueRepo = issueRepo;    // issue来源仓库的repo
+    this.testOwner = testOwner;    // 测试仓库的owner
+    this.testRepo = testRepo;      // 测试仓库的repo
     this.octokit = require('@octokit/rest').Octokit;
     this.client = new this.octokit({ auth: token });
   }
 
-  // 克隆仓库到本地
-  async cloneRepository() {
-    const repoPath = path.join(process.cwd(), 'temp-repo');
+  // 克隆测试仓库到本地
+  async cloneTestRepository() {
+    const repoPath = path.join(process.cwd(), 'temp-test-repo');
     
     // 如果目录已存在，先删除
     if (fs.existsSync(repoPath)) {
       await execAsync(`rm -rf "${repoPath}"`);
     }
 
-    console.log('📥 正在克隆仓库...');
+    console.log('📥 正在克隆测试仓库...');
     
     try {
       // 使用token克隆私有仓库
-      const cloneUrl = `https://${this.token}@github.com/${this.owner}/${this.repo}.git`;
+      const cloneUrl = `https://${this.token}@github.com/${this.testOwner}/${this.testRepo}.git`;
       await execAsync(`git clone ${cloneUrl} "${repoPath}"`);
-      console.log('✅ 仓库克隆成功');
+      console.log('✅ 测试仓库克隆成功');
       return repoPath;
     } catch (error) {
-      console.error('❌ 克隆仓库失败:', error.message);
+      console.error('❌ 克隆测试仓库失败:', error.message);
       throw error;
     }
   }
 
-  // 获取issue内容
+  // 获取issue内容（从issue仓库）
   async getIssueContent(issueNumber) {
     try {
       const { data: issue } = await this.client.issues.get({
-        owner: this.owner,
-        repo: this.repo,
+        owner: this.issueOwner,
+        repo: this.issueRepo,
         issue_number: issueNumber
       });
       
@@ -119,7 +119,7 @@ class IssueTester {
   async buildRules(repoPath) {
     console.log('🔨 正在构建规则...');
     try {
-      await execAsync('yarn rollup -c', { cwd: repoPath });
+      await execAsync('yarn install && yarn rollup -c', { cwd: repoPath });
       console.log('✅ 规则构建完成');
     } catch (error) {
       console.error('❌ 规则构建失败:', error.message);
@@ -147,21 +147,21 @@ class IssueTester {
     return match ? match[1].trim() : null;
   }
 
-  // 处理issue（添加标签、评论、关闭）
+  // 处理issue（在issue仓库上添加标签、评论、关闭）
   async handleIssue(issueNumber, resultContent) {
     try {
       // 添加duplicate标签
       await this.client.issues.addLabels({
-        owner: this.owner,
-        repo: this.repo,
+        owner: this.issueOwner,
+        repo: this.issueRepo,
         issue_number: issueNumber,
         labels: ['duplicate']
       });
 
       // 在issue下添加评论
       await this.client.issues.createComment({
-        owner: this.owner,
-        repo: this.repo,
+        owner: this.issueOwner,
+        repo: this.issueRepo,
         issue_number: issueNumber,
         body: `该数据已适配，以下为自动识别的结果:
 \`\`\`json
@@ -170,7 +170,7 @@ ${resultContent}
 
 如果您发现该数据未匹配，您可以做如下尝试：
     1. 更新自动记账到最新版：https://github.com/AutoAccountingOrg/AutoAccounting/releases
-    2. 长按首页 - 规则部分的更新按钮，更新最新的规则，最新的规则版本：![](https://img.shields.io/github/v/release/AutoAccountingOrg/AutoRule.svg)
+    2. 长按首页 - 规则部分的更新按钮，更新最新的规则，最新的规则版本：![](https://img.shields.io/github/v/release/AutoAccountingOrg/AutoRuleSubmit.svg)
     3. 在自动记账中，检查对应的规则是否被您禁用（开关为关闭状态）
     4. 检查日志中，是否存在错误输出（红色部分），如果有请提交日志至ankio@ankio.net
     5. 等待规则更新
@@ -179,8 +179,8 @@ ${resultContent}
 
       // 关闭issue
       await this.client.issues.update({
-        owner: this.owner,
-        repo: this.repo,
+        owner: this.issueOwner,
+        repo: this.issueRepo,
         issue_number: issueNumber,
         state: 'closed'
       });
@@ -197,10 +197,10 @@ ${resultContent}
     let repoPath = null;
     
     try {
-      // 1. 克隆仓库
-      repoPath = await this.cloneRepository();
+      // 1. 克隆测试仓库
+      repoPath = await this.cloneTestRepository();
       
-      // 2. 获取issue内容
+      // 2. 获取issue内容（从issue仓库）
       const issueContent = await this.getIssueContent(issueNumber);
       
       // 3. 提取数据URI
@@ -210,13 +210,13 @@ ${resultContent}
         return false;
       }
       
-      // 4. 写入测试文件
+      // 4. 写入测试文件（到测试仓库）
       this.writeTestFile(dataContent, repoPath);
       
-      // 5. 构建规则
+      // 5. 构建规则（在测试仓库中）
       await this.buildRules(repoPath);
       
-      // 6. 运行测试
+      // 6. 运行测试（在测试仓库中）
       const output = await this.runTest(repoPath);
       
       // 7. 提取测试结果
@@ -226,7 +226,7 @@ ${resultContent}
         console.log('✅ 测试成功，找到匹配结果');
         console.log('📊 测试结果:', result);
         
-        // 8. 处理issue
+        // 8. 处理issue（在issue仓库中）
         await this.handleIssue(issueNumber, result);
         return true;
       } else {
@@ -255,14 +255,14 @@ ${resultContent}
     let repoPath = null;
     
     try {
-      // 1. 克隆仓库
-      repoPath = await this.cloneRepository();
+      // 1. 克隆测试仓库
+      repoPath = await this.cloneTestRepository();
       
-      // 2. 获取所有open的issues
+      // 2. 获取所有open的issues（从issue仓库）
       console.log('📋 获取所有open的issues...');
       const { data: issues } = await this.client.issues.listForRepo({
-        owner: this.owner,
-        repo: this.repo,
+        owner: this.issueOwner,
+        repo: this.issueRepo,
         state: 'open'
       });
       
@@ -283,20 +283,21 @@ ${resultContent}
             continue;
           }
           
-          // 写入测试文件
+          // 写入测试文件（到测试仓库）
           this.writeTestFile(dataContent, repoPath);
           
-          // 构建规则（只在第一次执行）
+          // 构建规则（只在第一次执行，在测试仓库中）
           if (successCount === 0 && failCount === 0) {
             await this.buildRules(repoPath);
           }
           
-          // 运行测试
+          // 运行测试（在测试仓库中）
           const output = await this.runTest(repoPath);
           const result = this.extractTestResult(output);
           
           if (result) {
             console.log(`✅ Issue #${issue.number} 测试成功`);
+            // 处理issue（在issue仓库中）
             await this.handleIssue(issue.number, result);
             successCount++;
           } else {

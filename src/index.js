@@ -52,8 +52,10 @@ program
   .option('-t, --token <token>', 'GitHub TOKEN', process.env.ACCESS_GITHUB_TOKEN)
   .action(async (issue, options) => {
     // 硬编码仓库信息
-    const owner = 'AutoAccountingOrg';
-    const repo = 'AutoRule';
+    const issueOwner = 'AutoAccountingOrg';
+    const issueRepo = 'AutoRuleSubmit';  // issue来源仓库
+    const testOwner = 'AutoAccountingOrg';
+    const testRepo = 'AutoRule';         // 测试仓库
     
     // 检查必要的环境变量
     if (!options.token) {
@@ -63,7 +65,8 @@ program
     }
 
     console.log(`🔧 配置信息:`);
-    console.log(`  仓库: ${owner}/${repo}`);
+    console.log(`  Issue仓库: ${issueOwner}/${issueRepo}`);
+    console.log(`  测试仓库: ${testOwner}/${testRepo}`);
     if (issue) {
       console.log(`  Issue: #${issue}`);
     } else {
@@ -71,7 +74,7 @@ program
     }
 
     // 创建测试器实例
-    const tester = new IssueTester(options.token, owner, repo);
+    const tester = new IssueTester(options.token, issueOwner, issueRepo, testOwner, testRepo);
     
     // 执行测试
     let success;
@@ -80,10 +83,7 @@ program
     } else {
       success = await tester.testAllIssues();
     }
-    
-    if (!success) {
-      process.exit(1);
-    }
+
   });
 
 program
