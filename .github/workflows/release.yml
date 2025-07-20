@@ -1,0 +1,48 @@
+name: Release Automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '版本标签 (例如: v1.0.0)'
+        required: true
+        type: string
+      from_commit:
+        description: '起始commit hash'
+        required: true
+        type: string
+      to_commit:
+        description: '目标commit hash'
+        required: true
+        type: string
+      upload_url:
+        description: '上传地址 (可选)'
+        required: false
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        
+      - name: 设置Node.js环境
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: 安装依赖
+        run: npm ci
+        
+      - name: 执行Release流程
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node src/index.js release \
+            "${{ inputs.tag }}" \
+            "${{ inputs.from_commit }}" \
+            "${{ inputs.to_commit }}" \
+            ${{ inputs.upload_url && format('--upload-url {0}', inputs.upload_url) || '' }}

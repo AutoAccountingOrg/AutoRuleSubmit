@@ -3,7 +3,20 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const { promisify } = require('util');
-const execAsync = promisify(exec);
+const { Octokit } = require('@octokit/rest');
+
+// 创建一个支持选项的execAsync
+const execAsync = (command, options = {}) => {
+  return new Promise((resolve, reject) => {
+    exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve({ stdout, stderr });
+    });
+  });
+};
 
 class IssueTester {
   constructor(token, owner, repo) {

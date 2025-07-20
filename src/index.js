@@ -3,6 +3,7 @@
 const { Command } = require('commander');
 const IssueRenamer = require('./issue-rename');
 const IssueTester = require('./issue-test');
+const Release = require('./release');
 
 const program = new Command();
 
@@ -11,21 +12,6 @@ program
   .description('一个简单的命令行工具')
   .version('1.0.0');
 
-program
-  .command('hello')
-  .description('打招呼')
-  .action(() => {
-    console.log('你好！这是一个简单的命令行工具。');
-  });
-
-program
-  .command('info')
-  .description('显示工具信息')
-  .action(() => {
-    console.log('工具名称: auto-rule-submit');
-    console.log('版本: 1.0.0');
-    console.log('描述: 一个简单的命令行工具');
-  });
 
 program
   .command('rename')
@@ -94,6 +80,46 @@ program
     } else {
       success = await tester.testAllIssues();
     }
+    
+    if (!success) {
+      process.exit(1);
+    }
+  });
+
+program
+  .command('release')
+  .description('发布版本并构建')
+  .argument('<tag>', '版本标签')
+  .argument('<from-commit>', '起始commit hash')
+  .argument('<to-commit>', '目标commit hash')
+  .option('-t, --token <token>', 'GitHub TOKEN', process.env.GITHUB_TOKEN)
+  .option('-u, --upload-url <url>', '构建包上传地址')
+  .action(async (tag, fromCommit, toCommit, options) => {
+    // 硬编码仓库信息
+    const owner = 'AutoAccountingOrg';
+    const repo = 'AutoRule';
+    
+    // 检查必要的环境变量
+    if (!options.token) {
+      console.error('❌ 错误: 缺少 GITHUB_TOKEN 环境变量');
+      console.log('请设置环境变量: export GITHUB_TOKEN=your_token');
+      process.exit(1);
+    }
+
+    console.log(`🔧 配置信息:`);
+    console.log(`  仓库: ${owner}/${repo}`);
+    console.log(`  版本标签: ${tag}`);
+    console.log(`  起始commit: ${fromCommit}`);
+    console.log(`  目标commit: ${toCommit}`);
+    if (options.uploadUrl) {
+      console.log(`  上传地址: ${options.uploadUrl}`);
+    }
+
+    // 创建发布器实例
+    const release = new Release(options.token, owner, repo);
+    
+    // 执行发布流程
+    const success = await release.executeRelease(tag, fromCommit, toCommit, options.uploadUrl);
     
     if (!success) {
       process.exit(1);
