@@ -69,6 +69,9 @@ class IssueTester {
 
   // 提取数据URI
   async extractDataUri(issueContent) {
+
+
+
     const pattern = /\[数据过期时间：(.+?)]\((https?:\/\/[^\s)]+)\)/;
     const match = issueContent.match(pattern);
 
@@ -276,6 +279,10 @@ ${resultContent}
         console.log(`\n🔍 处理 Issue #${issue.number}: ${issue.title}`);
         
         try {
+          if (issue.title.indexOf('Bug Report') !== -1) {
+            //报告bug的不处理
+            process.exit(0);
+          }
           // 提取数据URI
           const dataContent = await this.extractDataUri(issue.body);
           if (!dataContent) {
