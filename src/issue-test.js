@@ -151,15 +151,8 @@ class IssueTester {
   }
 
   // 处理issue（在issue仓库上添加标签、评论、关闭）
-  async handleIssue(issueNumber, resultContent) {
+  async handleIssue(issueNumber, resultContent,title) {
     try {
-      // 添加duplicate标签
-      await this.client.issues.addLabels({
-        owner: this.issueOwner,
-        repo: this.issueRepo,
-        issue_number: issueNumber,
-        labels: ['duplicate']
-      });
 
       // 在issue下添加评论
       await this.client.issues.createComment({
@@ -179,6 +172,18 @@ ${resultContent}
     5. 等待规则更新
     6. 注意：自动记账规则自v0.5.7开始实行付费更新，购买地址：https://license.ankio.icu/
     `
+      });
+
+      if (title.indexOf('Bug Report') > 0 || title.indexOf('Bug反馈') > 0) {
+        //报告bug的不处理
+        return
+      }
+// 添加duplicate标签
+      await this.client.issues.addLabels({
+        owner: this.issueOwner,
+        repo: this.issueRepo,
+        issue_number: issueNumber,
+        labels: ['duplicate']
       });
 
       // 关闭issue
@@ -280,10 +285,7 @@ ${resultContent}
         console.log(`\n🔍 处理 Issue #${issue.number}: ${issue.title}`);
         
         try {
-          if (issue.title.indexOf('Bug Report') !== -1) {
-            //报告bug的不处理
-            process.exit(0);
-          }
+
           // 提取数据URI
           const dataContent = await this.extractDataUri(issue.body);
           if (!dataContent) {
@@ -306,7 +308,7 @@ ${resultContent}
           if (result) {
             console.log(`✅ Issue #${issue.number} 测试成功`);
             // 处理issue（在issue仓库中）
-            await this.handleIssue(issue.number, result);
+            await this.handleIssue(issue.number, result,title);
             successCount++;
           } else {
             console.log(`⚠️ Issue #${issue.number} 未找到测试结果`);
