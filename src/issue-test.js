@@ -169,8 +169,8 @@ ${resultContent}
     2. 长按首页 - 规则部分的更新按钮，更新最新的规则，最新的规则版本：![](https://img.shields.io/github/v/release/AutoAccountingOrg/AutoRuleSubmit.svg)
     3. 在自动记账中，检查对应的规则是否被您禁用（开关为关闭状态）
     4. 检查日志中，是否存在错误输出（红色部分），如果有请提交日志至ankio@ankio.net
-    5. 等待规则更新
-    6. 注意：自动记账规则自v0.5.7开始实行付费更新，购买地址：https://license.ankio.icu/
+    5. **等待规则更新**，部分规则仓库已适配但是尚未发布，请等待发布后再试
+    6. 注意：自动记账规则自v0.5.7开始实行付费更新，购买地址：https://license.ez-book.org/
     `
       });
 
