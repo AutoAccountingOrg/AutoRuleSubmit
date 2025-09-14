@@ -1,8 +1,9 @@
 # AutoRuleSubmit
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Issues](https://img.shields.io/badge/issues-welcome-brightgreen.svg)](https://github.com/AutoAccountingOrg/AutoRuleSubmit/issues)
-[![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AutoAccountingOrg/AutoRuleSubmit/pulls)
+[![Issues](https://img.shields.io/github/issues/AutoAccountingOrg/AutoRuleSubmit)](https://github.com/AutoAccountingOrg/AutoRuleSubmit/issues)
+[![PRs](https://img.shields.io/github/issues-pr/AutoAccountingOrg/AutoRuleSubmit)](https://github.com/AutoAccountingOrg/AutoRuleSubmit/pulls)
+[![Release](https://img.shields.io/github/v/release/AutoAccountingOrg/AutoRuleSubmit?sort=semver)](https://github.com/AutoAccountingOrg/AutoRuleSubmit/releases/latest)
 
 > 自动记账规则提交与反馈平台
 
