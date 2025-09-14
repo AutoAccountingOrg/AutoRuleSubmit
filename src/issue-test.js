@@ -151,7 +151,7 @@ class IssueTester {
   }
 
   // 处理issue（在issue仓库上添加标签、评论、关闭）
-  async handleIssue(issueNumber, resultContent,title) {
+  async handleIssue(issueNumber, resultContent,content) {
     try {
 
       // 在issue下添加评论
@@ -174,7 +174,7 @@ ${resultContent}
     `
       });
 
-      if (title.indexOf('Bug Report') > 0 || title.indexOf('Bug反馈') > 0) {
+      if (content.indexOf('反馈规则识别错误') > 0) {
         //报告bug的不处理
         return
       }
@@ -236,7 +236,7 @@ ${resultContent}
         console.log('📊 测试结果:', result);
         
         // 8. 处理issue（在issue仓库中）
-        await this.handleIssue(issueNumber, result);
+        await this.handleIssue(issueNumber, result,issueContent);
         return true;
       } else {
         console.log('⚠️ 未找到测试结果');
@@ -308,7 +308,7 @@ ${resultContent}
           if (result) {
             console.log(`✅ Issue #${issue.number} 测试成功`);
             // 处理issue（在issue仓库中）
-            await this.handleIssue(issue.number, result,title);
+            await this.handleIssue(issue.number, result,issue.body);
             successCount++;
           } else {
             console.log(`⚠️ Issue #${issue.number} 未找到测试结果`);
