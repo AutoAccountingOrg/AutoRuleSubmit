@@ -160,7 +160,7 @@ class IssueTester {
         repo: this.issueRepo,
         issue_number: issueNumber,
         body: `该数据已适配，以下为自动识别的结果:
-\`\`\`json
+\`\`\`javascript
 ${resultContent}
 \`\`\` 
 
