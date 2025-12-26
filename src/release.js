@@ -120,6 +120,7 @@ class Release {
       console.log('🔨 执行构建...');
       await execAsync('yarn rollup -c', { cwd: repoPath });
       console.log('✅ 构建完成');
+      await execAsync('yarn generatedRuleList', { cwd: repoPath });
     } catch (error) {
       console.error('❌ 构建失败:', error.message);
       throw error;
@@ -332,10 +333,109 @@ class Release {
     }
   }
 
+  // 提交 rules.md 到当前仓库
+  async commitRulesMd(repoPath, tag) {
+    console.log('📄 正在提交 rules.md...');
+    
+    const rulesPath = path.join(repoPath, 'rules.md');
+    
+    if (!fs.existsSync(rulesPath)) {
+      console.warn('⚠️ rules.md 不存在，跳过提交');
+      return null;
+    }
+
+    try {
+      const content = fs.readFileSync(rulesPath, 'utf-8');
+      const contentBase64 = Buffer.from(content).toString('base64');
+      
+      // 尝试获取现有文件的 sha（用于更新）
+      let existingSha = null;
+      try {
+        const { data } = await this.octokit.repos.getContent({
+          owner: this.owner,
+          repo: this.runInRepo,
+          path: 'rules.md'
+        });
+        existingSha = data.sha;
+      } catch (e) {
+        // 文件不存在，将创建新文件
+      }
+
+      const params = {
+        owner: this.owner,
+        repo: this.runInRepo,
+        path: 'rules.md',
+        message: `docs: 更新规则列表 ${tag}`,
+        content: contentBase64
+      };
+
+      if (existingSha) {
+        params.sha = existingSha;
+      }
+
+      const response = await this.octokit.repos.createOrUpdateFileContents(params);
+      
+      console.log('✅ rules.md 提交成功');
+      return response.data.commit.sha;
+    } catch (error) {
+      console.error('❌ 提交 rules.md 失败:', error.message);
+      throw error;
+    }
+  }
+
+  // 通过 bot 发送通知
+  async sendBotNotification(tag, changelog, commits) {
+    const botUrl = process.env.BOT_URL;
+    const groupId = process.env.BOT_GROUP_ID;
+    
+    if (!botUrl || !groupId) {
+      console.log('⚠️ 未提供 BOT_URL 或 BOT_GROUP_ID 环境变量，跳过通知');
+      return;
+    }
+
+    console.log('📢 正在发送 bot 通知...');
+    
+    try {
+      const fetch = require('node-fetch');
+      
+      // 构建通知消息
+      const msg = `🎉 新版本发布: ${tag}\n\n` +
+        `📦 仓库: ${this.owner}/${this.repo}\n` +
+        `📊 提交数: ${commits.length}\n\n` +
+        `${changelog}`;
+      
+      const params = new URLSearchParams();
+      params.append('msg', msg);
+      params.append('group_id', groupId);
+
+      const response = await fetch(botUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'User-Agent': 'AutoRuleSubmit-Release/1.0'
+        },
+        body: params.toString(),
+        timeout: 30000
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      console.log('✅ Bot 通知发送成功');
+    } catch (error) {
+      console.warn('⚠️ Bot 通知发送失败:', error.message);
+      // 通知失败不影响整体流程
+    }
+  }
+
   // 执行完整的release流程
-  async executeRelease(tag, fromCommit, toCommit,sha) {
+  async executeRelease(tag, fromCommit, toCommit, sha) {
     let repoPath = null;
     let packagePath = null;
+    let changelog = '';
+    let commits = [];
     
     try {
       // 1. 克隆仓库
@@ -345,11 +445,11 @@ class Release {
       await this.checkoutCommit(repoPath, toCommit);
       
       // 3. 获取commit差异
-      const commits = await this.getCommitsDiff(repoPath, fromCommit, toCommit);
+      commits = await this.getCommitsDiff(repoPath, fromCommit, toCommit);
       console.log(`📊 找到 ${commits.length} 个commit`);
       
       // 4. 生成更新日志
-      const changelog = this.generateChangelog(commits);
+      changelog = this.generateChangelog(commits);
       
       // 5. 构建项目
       await this.buildProject(repoPath);
@@ -360,11 +460,18 @@ class Release {
       // 7. 上传构建包
       await this.uploadPackage(packagePath, tag, changelog, commits);
       
-      // 8. 创建tag
-      await this.createTag(tag, sha);
+      // 8. 提交 rules.md 到当前仓库
+      const newSha = await this.commitRulesMd(repoPath, tag);
+      const tagSha = newSha || sha;
       
-      // 9. 创建release
-      await this.createRelease(tag, changelog,sha);
+      // 9. 创建tag
+      await this.createTag(tag, tagSha);
+      
+      // 10. 创建release
+      await this.createRelease(tag, changelog, tagSha);
+      
+      // 11. 发送 bot 通知
+      await this.sendBotNotification(tag, changelog, commits);
       
       console.log('🎉 Release流程完成！');
       return true;

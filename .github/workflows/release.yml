@@ -27,6 +27,8 @@ jobs:
         env:
           ACCESS_GITHUB_TOKEN: ${{ secrets.ACCESS_GITHUB_TOKEN }}
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
+          BOT_URL: ${{ secrets.BOT_URL }}
+          BOT_GROUP_ID: ${{ secrets.BOT_GROUP_ID }}
         run: |
           node src/index.js release \
             "${{ github.event.client_payload.tag_name }}" \
