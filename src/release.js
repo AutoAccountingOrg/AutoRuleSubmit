@@ -46,18 +46,6 @@ class Release {
     this.runInRepo = "AutoRuleSubmit"
 
     this.octokit = new Octokit({ auth: token });
-    
-    // 统一的规则配置
-    this.commitRules = [
-      { pattern: 'feat:', category: 'features', title: '✨ 新功能' },
-      { pattern: 'fix:', category: 'fixes', title: '🐛 修复' },
-      { pattern: 'docs:', category: 'docs', title: '📝 文档' },
-      { pattern: 'style:', category: 'style', title: '💄 样式' },
-      { pattern: 'refactor:', category: 'refactor', title: '♻️ 重构' },
-      { pattern: 'perf:', category: 'perf', title: '⚡ 性能' },
-      { pattern: 'test:', category: 'test', title: '🧪 测试' },
-      { pattern: 'chore:', category: 'chore', title: '🔧 构建' },
-    ];
   }
 
   // 克隆仓库到本地
@@ -237,55 +225,91 @@ class Release {
     }
   }
 
+  // 文本emoji转真实emoji映射表
+  convertEmojiCode(code) {
+    const emojiMap = {
+      ':sparkles:': '✨',
+      ':bug:': '🐛',
+      ':memo:': '📝',
+      ':lipstick:': '💄',
+      ':recycle:': '♻️',
+      ':zap:': '⚡',
+      ':white_check_mark:': '✅',
+      ':wrench:': '🔧',
+      ':fire:': '🔥',
+      ':rocket:': '🚀',
+      ':tada:': '🎉',
+      ':construction:': '🚧',
+      ':bookmark:': '🔖',
+      ':lock:': '🔒',
+      ':arrow_up:': '⬆️',
+      ':arrow_down:': '⬇️',
+      ':globe_with_meridians:': '🌐',
+      ':pencil2:': '✏️',
+      ':package:': '📦',
+      ':alien:': '👽',
+      ':truck:': '🚚',
+      ':page_facing_up:': '📄',
+      ':boom:': '💥',
+      ':bento:': '🍱',
+      ':wheelchair:': '♿',
+      ':bulb:': '💡',
+      ':beers:': '🍻',
+      ':speech_balloon:': '💬',
+      ':card_file_box:': '🗃️',
+      ':loud_sound:': '🔊',
+      ':mute:': '🔇',
+      ':busts_in_silhouette:': '👥',
+      ':children_crossing:': '🚸',
+      ':building_construction:': '🏗️',
+      ':iphone:': '📱',
+      ':clown_face:': '🤡',
+      ':egg:': '🥚',
+      ':see_no_evil:': '🙈',
+      ':camera_flash:': '📸',
+      ':alembic:': '⚗️',
+      ':mag:': '🔍',
+      ':label:': '🏷️',
+      ':seedling:': '🌱',
+      ':triangular_flag_on_post:': '🚩',
+      ':goal_net:': '🥅',
+      ':dizzy:': '💫',
+      ':wastebasket:': '🗑️',
+      ':passport_control:': '🛂',
+      ':adhesive_bandage:': '🩹',
+      ':monocle_face:': '🧐',
+      ':coffin:': '⚰️',
+      ':test_tube:': '🧪',
+      ':necktie:': '👔',
+      ':stethoscope:': '🩺',
+      ':bricks:': '🧱',
+      ':technologist:': '🧑‍💻',
+    };
+    return emojiMap[code] || code;
+  }
+
   // 生成更新日志
   generateChangelog(commits) {
     console.log('📝 正在生成更新日志...');
     
-    // 初始化分类对象
-    const changelog = {};
-    this.commitRules.forEach(rule => {
-      changelog[rule.category] = [];
-    });
-    changelog.other = [];
+    // 解析格式: :emoji: (category): content
+    const commitPattern = /^:([a-z_]+):\s*\([^)]+\):\s*(.+)$/i;
+    
+    let markdown = '';
 
-    // 分类commit
     commits.forEach(commit => {
       const message = commit.replace(/^[a-f0-9]+ /, ''); // 移除commit hash
-      const matchedRule = this.commitRules.find(rule => 
-        message.toLowerCase().includes(rule.pattern.toLowerCase())
-      );
+      const match = message.match(commitPattern);
       
-      if (matchedRule) {
-        // 去掉commit message中的前缀（如 feat:, fix: 等）
-        const cleanMessage = message.replace(new RegExp(`^${matchedRule.pattern}\\s*`, 'i'), '');
-        changelog[matchedRule.category].push(cleanMessage);
+      if (match) {
+        const emojiCode = `:${match[1]}:`;
+        const content = match[2].trim();
+        const emoji = this.convertEmojiCode(emojiCode);
+        markdown += `- ${emoji} ${content}\n`;
       } else {
-        changelog.other.push(message);
-      }
-    });
-
-    // 生成markdown格式的更新日志
-    let markdown = '';
-    
-    // 按规则顺序输出分类
-    this.commitRules.forEach(rule => {
-      if (changelog[rule.category].length > 0) {
-        markdown += `## ${rule.title}\n\n`;
-        changelog[rule.category].forEach(message => {
-          markdown += `- ${message}\n`;
-        });
-        markdown += '\n';
-      }
-    });
-
-    // 输出其他分类
-    if (changelog.other.length > 0) {
-      markdown += `## 📦 其他\n\n`;
-      changelog.other.forEach(message => {
         markdown += `- ${message}\n`;
-      });
-      markdown += '\n';
-    }
+      }
+    });
 
     console.log('✅ 更新日志生成完成');
     return markdown;
@@ -399,10 +423,10 @@ class Release {
       const fetch = require('node-fetch');
       
       // 构建通知消息
-      const msg = `🎉 新版本发布: ${tag}\n\n` +
+      const msg = `🎉 自动记账规则新版本发布: ${tag}\n\n` +
         `📦 仓库: ${this.owner}/${this.repo}\n` +
         `📊 提交数: ${commits.length}\n\n` +
-        `${changelog}`;
+        `${changelog}\n\n`+ `如需更新请先确保您已经购买 规则更新计划 。\n\n`;
       
       const params = new URLSearchParams();
       params.append('msg', msg);
