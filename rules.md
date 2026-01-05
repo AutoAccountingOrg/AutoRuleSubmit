@@ -97,6 +97,12 @@
 | 中信银行信用卡消费通知 | 通知 | notice/com.citiccard.mobilebank/中信银行信用卡消费通知.js |
 | 中信银行信用卡退款通知 | 通知 | notice/com.citiccard.mobilebank/中信银行信用卡退款通知.js |
 
+## com.cmbc.cc.mbank
+
+| 规则名称 | 规则类型 | 规则路径 |
+|---------|----------|----------|
+| 民生银行信用卡 | 数据 | ocr/com.cmbc.cc.mbank/民生银行信用卡.js |
+
 ## com.cmbchina.ccd.pluto.cmbActivity
 
 | 规则名称 | 规则类型 | 规则路径 |
@@ -169,6 +175,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 工商银行收支 | 通知 | notice/com.icbc/工商银行收支.js |
+| 工商银行收支详情 | 数据 | ocr/com.icbc/工商银行收支详情.js |
 
 ## com.jingdong.app.mall
 
@@ -292,6 +299,7 @@
 | 微信公众号薪职场 | 数据 | app/com.tencent.mm/微信公众号薪职场.js |
 | 微信公众号邮储银行信用卡 | 数据 | app/com.tencent.mm/微信公众号邮储银行信用卡.js |
 | 微信公众号郑州银行信用卡 | 数据 | app/com.tencent.mm/微信公众号郑州银行信用卡.js |
+| 微信公众号郑州银行微银行 | 数据 | app/com.tencent.mm/微信公众号郑州银行微银行.js |
 | 微信公众号重庆银行微银行 | 数据 | app/com.tencent.mm/微信公众号重庆银行微银行.js |
 | 微信公众号长沙住房公积金 | 数据 | app/com.tencent.mm/微信公众号长沙住房公积金.js |
 | 微信公众号长沙银行 | 数据 | app/com.tencent.mm/微信公众号长沙银行.js |
