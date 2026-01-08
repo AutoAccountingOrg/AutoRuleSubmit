@@ -162,6 +162,7 @@
 | 支付宝退款 | 通知 | notice/com.eg.android.AlipayGphone/支付宝退款.js |
 | 支付宝零花钱消费 | 通知 | notice/com.eg.android.AlipayGphone/支付宝零花钱消费.js |
 | 网商银行交易提醒 | 通知 | notice/com.eg.android.AlipayGphone/网商银行交易提醒.js |
+| 支付宝基金转入 | 数据 | ocr/com.eg.android.AlipayGphone/支付宝基金转入.js |
 | 支付宝账单详情 | 数据 | ocr/com.eg.android.AlipayGphone/支付宝账单详情.js |
 
 ## com.finshell.wallet
@@ -251,6 +252,7 @@
 | 微信公众号华夏银行信用卡 | 数据 | app/com.tencent.mm/微信公众号华夏银行信用卡.js |
 | 微信公众号南京银行 | 数据 | app/com.tencent.mm/微信公众号南京银行.js |
 | 微信公众号哈尔滨银行 | 数据 | app/com.tencent.mm/微信公众号哈尔滨银行.js |
+| 微信公众号四川ETC | 数据 | app/com.tencent.mm/微信公众号四川ETC.js |
 | 微信公众号四川农信 | 数据 | app/com.tencent.mm/微信公众号四川农信.js |
 | 微信公众号四川农商银行 | 数据 | app/com.tencent.mm/微信公众号四川农商银行.js |
 | 微信公众号大众点评 | 数据 | app/com.tencent.mm/微信公众号大众点评.js |
@@ -331,6 +333,7 @@
 | 微信抢红包 | 通知 | notice/com.tencent.mm/微信抢红包.js |
 | 微信支付 | 通知 | notice/com.tencent.mm/微信支付.js |
 | OCR账单 | 数据 | ocr/com.tencent.mm/OCR账单.js |
+| 微信转账 | 数据 | ocr/com.tencent.mm/微信转账.js |
 
 ## com.unionpay
 
