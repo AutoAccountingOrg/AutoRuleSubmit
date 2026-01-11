@@ -37,6 +37,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 短信上海农商银行 | 数据 | app/com.android.phone/短信上海农商银行.js |
+| 短信上饶银行 | 数据 | app/com.android.phone/短信上饶银行.js |
 | 短信中国农业银行 | 数据 | app/com.android.phone/短信中国农业银行.js |
 | 短信中国银行 | 数据 | app/com.android.phone/短信中国银行.js |
 | 短信云南农信 | 数据 | app/com.android.phone/短信云南农信.js |
@@ -207,6 +208,12 @@
 |---------|----------|----------|
 | 滴滴出行 | 通知 | notice/com.sdu.didi.psnger/滴滴出行.js |
 
+## com.spdbccc.app
+
+| 规则名称 | 规则类型 | 规则路径 |
+|---------|----------|----------|
+| 浦发银行信用卡中心消费通知 | 通知 | notice/com.spdbccc.app/浦发银行信用卡中心消费通知.js |
+
 ## com.ss.android.ugc.aweme
 
 | 规则名称 | 规则类型 | 规则路径 |
@@ -332,8 +339,8 @@
 | 微信转账 | 数据 | app/com.tencent.mm/微信转账.js |
 | 微信抢红包 | 通知 | notice/com.tencent.mm/微信抢红包.js |
 | 微信支付 | 通知 | notice/com.tencent.mm/微信支付.js |
+| OCR微信转账 | 数据 | ocr/com.tencent.mm/OCR微信转账.js |
 | OCR账单 | 数据 | ocr/com.tencent.mm/OCR账单.js |
-| 微信转账 | 数据 | ocr/com.tencent.mm/微信转账.js |
 
 ## com.unionpay
 
