@@ -37,6 +37,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 短信上海农商银行 | 数据 | app/com.android.phone/短信上海农商银行.js |
+| 短信上饶银行 | 数据 | app/com.android.phone/短信上饶银行.js |
 | 短信中国农业银行 | 数据 | app/com.android.phone/短信中国农业银行.js |
 | 短信中国银行 | 数据 | app/com.android.phone/短信中国银行.js |
 | 短信云南农信 | 数据 | app/com.android.phone/短信云南农信.js |
@@ -97,6 +98,12 @@
 | 中信银行信用卡消费通知 | 通知 | notice/com.citiccard.mobilebank/中信银行信用卡消费通知.js |
 | 中信银行信用卡退款通知 | 通知 | notice/com.citiccard.mobilebank/中信银行信用卡退款通知.js |
 
+## com.cmbc.cc.mbank
+
+| 规则名称 | 规则类型 | 规则路径 |
+|---------|----------|----------|
+| 民生银行信用卡 | 数据 | ocr/com.cmbc.cc.mbank/民生银行信用卡.js |
+
 ## com.cmbchina.ccd.pluto.cmbActivity
 
 | 规则名称 | 规则类型 | 规则路径 |
@@ -156,6 +163,7 @@
 | 支付宝退款 | 通知 | notice/com.eg.android.AlipayGphone/支付宝退款.js |
 | 支付宝零花钱消费 | 通知 | notice/com.eg.android.AlipayGphone/支付宝零花钱消费.js |
 | 网商银行交易提醒 | 通知 | notice/com.eg.android.AlipayGphone/网商银行交易提醒.js |
+| 支付宝基金转入 | 数据 | ocr/com.eg.android.AlipayGphone/支付宝基金转入.js |
 | 支付宝账单详情 | 数据 | ocr/com.eg.android.AlipayGphone/支付宝账单详情.js |
 
 ## com.finshell.wallet
@@ -169,6 +177,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 工商银行收支 | 通知 | notice/com.icbc/工商银行收支.js |
+| 工商银行收支详情 | 数据 | ocr/com.icbc/工商银行收支详情.js |
 
 ## com.jingdong.app.mall
 
@@ -198,6 +207,12 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 滴滴出行 | 通知 | notice/com.sdu.didi.psnger/滴滴出行.js |
+
+## com.spdbccc.app
+
+| 规则名称 | 规则类型 | 规则路径 |
+|---------|----------|----------|
+| 浦发银行信用卡中心消费通知 | 通知 | notice/com.spdbccc.app/浦发银行信用卡中心消费通知.js |
 
 ## com.ss.android.ugc.aweme
 
@@ -244,6 +259,7 @@
 | 微信公众号华夏银行信用卡 | 数据 | app/com.tencent.mm/微信公众号华夏银行信用卡.js |
 | 微信公众号南京银行 | 数据 | app/com.tencent.mm/微信公众号南京银行.js |
 | 微信公众号哈尔滨银行 | 数据 | app/com.tencent.mm/微信公众号哈尔滨银行.js |
+| 微信公众号四川ETC | 数据 | app/com.tencent.mm/微信公众号四川ETC.js |
 | 微信公众号四川农信 | 数据 | app/com.tencent.mm/微信公众号四川农信.js |
 | 微信公众号四川农商银行 | 数据 | app/com.tencent.mm/微信公众号四川农商银行.js |
 | 微信公众号大众点评 | 数据 | app/com.tencent.mm/微信公众号大众点评.js |
@@ -292,6 +308,7 @@
 | 微信公众号薪职场 | 数据 | app/com.tencent.mm/微信公众号薪职场.js |
 | 微信公众号邮储银行信用卡 | 数据 | app/com.tencent.mm/微信公众号邮储银行信用卡.js |
 | 微信公众号郑州银行信用卡 | 数据 | app/com.tencent.mm/微信公众号郑州银行信用卡.js |
+| 微信公众号郑州银行微银行 | 数据 | app/com.tencent.mm/微信公众号郑州银行微银行.js |
 | 微信公众号重庆银行微银行 | 数据 | app/com.tencent.mm/微信公众号重庆银行微银行.js |
 | 微信公众号长沙住房公积金 | 数据 | app/com.tencent.mm/微信公众号长沙住房公积金.js |
 | 微信公众号长沙银行 | 数据 | app/com.tencent.mm/微信公众号长沙银行.js |
@@ -322,6 +339,7 @@
 | 微信转账 | 数据 | app/com.tencent.mm/微信转账.js |
 | 微信抢红包 | 通知 | notice/com.tencent.mm/微信抢红包.js |
 | 微信支付 | 通知 | notice/com.tencent.mm/微信支付.js |
+| OCR微信转账 | 数据 | ocr/com.tencent.mm/OCR微信转账.js |
 | OCR账单 | 数据 | ocr/com.tencent.mm/OCR账单.js |
 
 ## com.unionpay
