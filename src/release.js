@@ -199,7 +199,7 @@ class Release {
           ...form.getHeaders(),
           'User-Agent': 'AutoRuleSubmit-Release/1.0'
         },
-        timeout: 60000 // 60秒超时
+        timeout: 300000 // 5分钟超时
       });
 
       console.log('📡 响应状态:', response.status, response.statusText);
@@ -439,7 +439,7 @@ class Release {
           'User-Agent': 'AutoRuleSubmit-Release/1.0'
         },
         body: params.toString(),
-        timeout: 30000
+        timeout: 300000
       });
 
       if (!response.ok) {
