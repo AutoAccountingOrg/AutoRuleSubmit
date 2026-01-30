@@ -137,6 +137,19 @@ class Release {
     }
   }
 
+  // 计算文件MD5（流式处理，避免大文件OOM）
+  calculateMD5(filePath) {
+    return new Promise((resolve, reject) => {
+      const crypto = require('crypto');
+      const hash = crypto.createHash('md5');
+      const stream = fs.createReadStream(filePath);
+      
+      stream.on('data', chunk => hash.update(chunk));
+      stream.on('end', () => resolve(hash.digest('hex')));
+      stream.on('error', reject);
+    });
+  }
+
   // 推送构建包、更新日志和版本信息到指定地址
   async uploadPackage(packagePath, tag, changelog, commits) {
     console.log('📤 正在上传构建包和相关信息...');
@@ -151,8 +164,18 @@ class Release {
     }
     
     try {
-      // 使用 node-fetch 进行更可靠的 HTTP 请求
+      // 获取文件大小
+      const stats = fs.statSync(packagePath);
+      console.log('📦 文件大小:', (stats.size / 1024 / 1024).toFixed(2), 'MB');
+      
+      // 计算文件MD5（流式处理）
+      console.log('🔐 正在计算MD5...');
+      const md5 = await this.calculateMD5(packagePath);
+      console.log('🔐 MD5:', md5);
+      
+      // 使用 node-fetch 进行 HTTP 请求
       const fetch = require('node-fetch');
+      const AbortController = require('abort-controller');
       const FormData = require('form-data');
       const form = new FormData();
       
@@ -172,35 +195,50 @@ class Release {
       // 添加额外的元数据
       form.append('commitCount', commits.length.toString());
       form.append('commits', JSON.stringify(commits));
-      
-      // 获取文件大小
-      const stats = fs.statSync(packagePath);
       form.append('packageSize', stats.size.toString());
-      
-      // 计算文件MD5
-      const crypto = require('crypto');
-      const fileBuffer = fs.readFileSync(packagePath);
-      const hash = crypto.createHash('md5');
-      hash.update(fileBuffer);
-      const md5 = hash.digest('hex');
       form.append('packageMD5', md5);
       
       // 添加仓库信息
       form.append('repo', `${this.owner}/${this.repo}`);
 
       console.log('📡 发送请求到:', uploadUrl);
-      console.log('📦 文件大小:', stats.size, '字节');
-      console.log('🔐 MD5:', md5);
       
-      const response = await fetch(uploadUrl, {
-        method: 'POST',
-        body: form,
-        headers: {
-          ...form.getHeaders(),
-          'User-Agent': 'AutoRuleSubmit-Release/1.0'
-        },
-        timeout: 300000 // 5分钟超时
+      // 上传进度追踪
+      let uploadedBytes = 0;
+      const totalBytes = stats.size;
+      let lastProgress = 0;
+      
+      form.on('data', (chunk) => {
+        uploadedBytes += chunk.length;
+        const progress = Math.floor((uploadedBytes / totalBytes) * 100);
+        
+        // 每10%输出一次，避免刷屏
+        if (progress - lastProgress >= 10) {
+          console.log(`📤 上传进度: ${progress}% (${(uploadedBytes / 1024 / 1024).toFixed(2)}MB / ${(totalBytes / 1024 / 1024).toFixed(2)}MB)`);
+          lastProgress = progress;
+        }
       });
+      
+      // 设置5分钟超时（正确的方式）
+      const controller = new AbortController();
+      const timeout = setTimeout(() => {
+        controller.abort();
+      }, 300000); // 5分钟
+      
+      let response;
+      try {
+        response = await fetch(uploadUrl, {
+          method: 'POST',
+          body: form,
+          headers: {
+            ...form.getHeaders(),
+            'User-Agent': 'AutoRuleSubmit-Release/1.0'
+          },
+          signal: controller.signal
+        });
+      } finally {
+        clearTimeout(timeout);
+      }
 
       console.log('📡 响应状态:', response.status, response.statusText);
       
@@ -219,8 +257,12 @@ class Release {
       console.log(`📊 Commit数量: ${commits.length}`);
       return true;
     } catch (error) {
-      console.error('❌ 上传失败:', error.message);
-      console.error('❌ 错误详情:', error.stack);
+      if (error.name === 'AbortError') {
+        console.error('❌ 上传超时（5分钟），请检查网络连接');
+      } else {
+        console.error('❌ 上传失败:', error.message);
+        console.error('❌ 错误详情:', error.stack);
+      }
       throw error;
     }
   }
