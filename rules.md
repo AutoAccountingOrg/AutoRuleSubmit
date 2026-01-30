@@ -23,6 +23,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 数字人民币消费通知 | 通知 | notice/cn.gov.pbc.dcep/数字人民币消费通知.js |
+| 数字人民币交易详情 | 数据 | ocr/cn.gov.pbc.dcep/数字人民币交易详情.js |
 
 ## com.android.bankabc
 
@@ -319,6 +320,7 @@
 | 微信支付二维码收款 | 数据 | app/com.tencent.mm/微信支付二维码收款.js |
 | 微信支付亲属卡 | 数据 | app/com.tencent.mm/微信支付亲属卡.js |
 | 微信支付分先用后付 | 数据 | app/com.tencent.mm/微信支付分先用后付.js |
+| 微信支付到账通知 | 数据 | app/com.tencent.mm/微信支付到账通知.js |
 | 微信支付商家打款 | 数据 | app/com.tencent.mm/微信支付商家打款.js |
 | 微信支付商家退款 | 数据 | app/com.tencent.mm/微信支付商家退款.js |
 | 微信支付在线支付 | 数据 | app/com.tencent.mm/微信支付在线支付.js |
@@ -339,8 +341,12 @@
 | 微信转账 | 数据 | app/com.tencent.mm/微信转账.js |
 | 微信抢红包 | 通知 | notice/com.tencent.mm/微信抢红包.js |
 | 微信支付 | 通知 | notice/com.tencent.mm/微信支付.js |
+| OCR微信待确认收款 | 数据 | ocr/com.tencent.mm/OCR微信待确认收款.js |
+| OCR微信红包 | 数据 | ocr/com.tencent.mm/OCR微信红包.js |
 | OCR微信转账 | 数据 | ocr/com.tencent.mm/OCR微信转账.js |
+| OCR微信转账收款 | 数据 | ocr/com.tencent.mm/OCR微信转账收款.js |
 | OCR账单 | 数据 | ocr/com.tencent.mm/OCR账单.js |
+| OCR账单退款 | 数据 | ocr/com.tencent.mm/OCR账单退款.js |
 
 ## com.unionpay
 
