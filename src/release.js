@@ -1,4 +1,4 @@
-const { exec } = require('child_process');
+const { exec, spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const { Octokit } = require('@octokit/rest');
@@ -150,11 +150,10 @@ class Release {
     });
   }
 
-  // 推送构建包、更新日志和版本信息到指定地址
+  // 推送构建包、更新日志和版本信息到指定地址（使用 curl）
   async uploadPackage(packagePath, tag, changelog, commits) {
     console.log('📤 正在上传构建包和相关信息...');
     
-    // 硬编码的上传地址
     const uploadUrl = 'http://license.ez-book.org/github';
     const uploadToken = process.env.UPLOAD_TOKEN;
     
@@ -163,95 +162,63 @@ class Release {
       return true;
     }
     
+    const changelogPath = path.join(process.cwd(), `.changelog-${Date.now()}.tmp`);
+    const commitsPath = path.join(process.cwd(), `.commits-${Date.now()}.tmp`);
+    
     try {
-      // 获取文件大小
       const stats = fs.statSync(packagePath);
       console.log('📦 文件大小:', (stats.size / 1024 / 1024).toFixed(2), 'MB');
       
-      // 计算文件MD5（流式处理）
       console.log('🔐 正在计算MD5...');
       const md5 = await this.calculateMD5(packagePath);
       console.log('🔐 MD5:', md5);
       
-      // 使用 node-fetch 进行 HTTP 请求
-      const fetch = require('node-fetch');
-      const AbortController = require('abort-controller');
-      const FormData = require('form-data');
-      const form = new FormData();
+      fs.writeFileSync(changelogPath, changelog);
+      fs.writeFileSync(commitsPath, JSON.stringify(commits));
       
-      // 添加构建包文件（已知长度，禁用分块传输，便于服务端与代理正确处理）
-      form.append('file', fs.createReadStream(packagePath), {
-        filename: path.basename(packagePath),
-        knownLength: stats.size
-      });
-      
-      // 添加tag版本号
-      form.append('tag', tag);
-      
-      // 添加更新日志
-      form.append('changelog', changelog);
-      
-      // 添加构建时间
-      form.append('buildTime', new Date().toISOString());
-      form.append('token', uploadToken);
-
-      // 添加额外的元数据
-      form.append('commitCount', commits.length.toString());
-      form.append('commits', JSON.stringify(commits));
-      form.append('packageSize', stats.size.toString());
-      form.append('packageMD5', md5);
-      
-      // 添加仓库信息
-      form.append('repo', `${this.owner}/${this.repo}`);
+      const buildTime = new Date().toISOString();
+      const args = [
+        '-s', '-S', '-w', '\n%{http_code}',
+        '-X', 'POST', '--max-time', '300',
+        '-F', `file=@${packagePath}`,
+        '-F', `tag=${tag}`,
+        '-F', `changelog=@${changelogPath}`,
+        '-F', `buildTime=${buildTime}`,
+        '-F', `token=${uploadToken}`,
+        '-F', `commitCount=${commits.length}`,
+        '-F', `commits=@${commitsPath}`,
+        '-F', `packageSize=${stats.size}`,
+        '-F', `packageMD5=${md5}`,
+        '-F', `repo=${this.owner}/${this.repo}`,
+        '-H', 'User-Agent: AutoRuleSubmit-Release/1.0',
+        uploadUrl
+      ];
 
       console.log('📡 发送请求到:', uploadUrl);
       
-      // 上传进度追踪
-      let uploadedBytes = 0;
-      const totalBytes = stats.size;
-      let lastProgress = 0;
-      
-      form.on('data', (chunk) => {
-        uploadedBytes += chunk.length;
-        const progress = Math.floor((uploadedBytes / totalBytes) * 100);
-        
-        // 每10%输出一次，避免刷屏
-        if (progress - lastProgress >= 10) {
-          console.log(`📤 上传进度: ${progress}% (${(uploadedBytes / 1024 / 1024).toFixed(2)}MB / ${(totalBytes / 1024 / 1024).toFixed(2)}MB)`);
-          lastProgress = progress;
-        }
-      });
-      
-      // 设置5分钟超时（正确的方式）
-      const controller = new AbortController();
-      const timeout = setTimeout(() => {
-        controller.abort();
-      }, 300000); // 5分钟
-      
-      let response;
-      try {
-        response = await fetch(uploadUrl, {
-          method: 'POST',
-          body: form,
-          headers: {
-            ...form.getHeaders(),
-            'User-Agent': 'AutoRuleSubmit-Release/1.0'
-          },
-          signal: controller.signal
+      const result = await new Promise((resolve, reject) => {
+        const proc = spawn('curl', args, { stdio: ['ignore', 'pipe', 'pipe'] });
+        let stdout = '';
+        let stderr = '';
+        proc.stdout.on('data', chunk => { stdout += chunk; });
+        proc.stderr.on('data', chunk => { stderr += chunk; });
+        proc.on('close', code => {
+          if (code !== 0) reject(new Error(stderr || `curl exited with code ${code}`));
+          else resolve(stdout);
         });
-      } finally {
-        clearTimeout(timeout);
-      }
+      });
 
-      console.log('📡 响应状态:', response.status, response.statusText);
+      const lines = result.trim().split('\n');
+      const httpCode = lines.pop();
+      const body = lines.join('\n');
       
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      console.log('📡 响应状态:', httpCode);
+      if (body) console.log('📡 响应内容:', body);
+      
+      const status = parseInt(httpCode, 10);
+      if (status < 200 || status >= 300) {
+        throw new Error(`HTTP ${status}: ${body}`);
       }
-
-      const responseText = await response.text();
-      console.log('📡 响应内容:', responseText);
 
       console.log('✅ 上传成功');
       console.log(`📦 构建包: ${packagePath}`);
@@ -260,13 +227,17 @@ class Release {
       console.log(`📊 Commit数量: ${commits.length}`);
       return true;
     } catch (error) {
-      if (error.name === 'AbortError') {
+      if (error.message.includes('timed out') || error.message.includes('Timeout')) {
         console.error('❌ 上传超时（5分钟），请检查网络连接');
       } else {
         console.error('❌ 上传失败:', error.message);
-        console.error('❌ 错误详情:', error.stack);
       }
       throw error;
+    } finally {
+      try {
+        if (fs.existsSync(changelogPath)) fs.unlinkSync(changelogPath);
+        if (fs.existsSync(commitsPath)) fs.unlinkSync(commitsPath);
+      } catch (_) {}
     }
   }
 
@@ -452,7 +423,7 @@ class Release {
     }
   }
 
-  // 通过 bot 发送通知
+  // 通过 bot 发送通知（使用 curl）
   async sendBotNotification(tag, changelog, commits) {
     const botUrl = process.env.BOT_URL;
     const groupId = process.env.BOT_GROUP_ID;
@@ -464,38 +435,48 @@ class Release {
 
     console.log('📢 正在发送 bot 通知...');
     
+    const msgPath = path.join(process.cwd(), `.bot-msg-${Date.now()}.tmp`);
+    const msg = `🎉 自动记账规则新版本发布: ${tag}\n\n` +
+      `📦 仓库: ${this.owner}/${this.repo}\n` +
+      `📊 提交数: ${commits.length}\n\n` +
+      `${changelog}\n\n` + `如需更新请先确保您已经购买 规则更新计划 。\n\n`;
+    
     try {
-      const fetch = require('node-fetch');
-      
-      // 构建通知消息
-      const msg = `🎉 自动记账规则新版本发布: ${tag}\n\n` +
-        `📦 仓库: ${this.owner}/${this.repo}\n` +
-        `📊 提交数: ${commits.length}\n\n` +
-        `${changelog}\n\n`+ `如需更新请先确保您已经购买 规则更新计划 。\n\n`;
-      
-      const params = new URLSearchParams();
-      params.append('msg', msg);
-      params.append('group_id', groupId);
+      fs.writeFileSync(msgPath, msg);
+      const args = [
+        '-s', '-S', '-w', '\n%{http_code}',
+        '-X', 'POST', '--max-time', '60',
+        '--data-urlencode', `msg@${msgPath}`,
+        '--data-urlencode', `group_id=${groupId}`,
+        '-H', 'User-Agent: AutoRuleSubmit-Release/1.0',
+        botUrl
+      ];
 
-      const response = await fetch(botUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'User-Agent': 'AutoRuleSubmit-Release/1.0'
-        },
-        body: params.toString(),
-        timeout: 300000
+      const result = await new Promise((resolve, reject) => {
+        const proc = spawn('curl', args, { stdio: ['ignore', 'pipe', 'pipe'] });
+        let stdout = '';
+        let stderr = '';
+        proc.stdout.on('data', chunk => { stdout += chunk; });
+        proc.stderr.on('data', chunk => { stderr += chunk; });
+        proc.on('close', code => {
+          if (code !== 0) reject(new Error(stderr || `curl exited with code ${code}`));
+          else resolve(stdout);
+        });
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      const lines = result.trim().split('\n');
+      const httpCode = lines.pop();
+      const status = parseInt(httpCode, 10);
+      if (status < 200 || status >= 300) {
+        throw new Error(`HTTP ${status}`);
       }
-
       console.log('✅ Bot 通知发送成功');
     } catch (error) {
       console.warn('⚠️ Bot 通知发送失败:', error.message);
-      // 通知失败不影响整体流程
+    } finally {
+      try {
+        if (fs.existsSync(msgPath)) fs.unlinkSync(msgPath);
+      } catch (_) {}
     }
   }
 
