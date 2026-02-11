@@ -245,6 +245,9 @@ class Release {
       
       if (!response.ok) {
         const errorText = await response.text();
+        console.error('❌ 上传失败');
+        console.error('响应码:', response.status, response.statusText);
+        console.error('响应 body:', errorText);
         throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
 
