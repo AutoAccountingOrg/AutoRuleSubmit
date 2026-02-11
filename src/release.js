@@ -155,7 +155,7 @@ class Release {
     console.log('📤 正在上传构建包和相关信息...');
     
     // 硬编码的上传地址
-    const uploadUrl = 'https://license.ez-book.org/github';
+    const uploadUrl = 'http://license.ez-book.org/github';
     const uploadToken = process.env.UPLOAD_TOKEN;
     
     if (!uploadToken) {
