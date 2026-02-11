@@ -180,6 +180,13 @@
 | 工商银行收支 | 通知 | notice/com.icbc/工商银行收支.js |
 | 工商银行收支详情 | 数据 | ocr/com.icbc/工商银行收支详情.js |
 
+## com.jd.jrapp
+
+| 规则名称 | 规则类型 | 规则路径 |
+|---------|----------|----------|
+| 京东白条 | 通知 | notice/com.jd.jrapp/京东白条.js |
+| 京东金融支付 | 通知 | notice/com.jd.jrapp/京东金融支付.js |
+
 ## com.jingdong.app.mall
 
 | 规则名称 | 规则类型 | 规则路径 |
@@ -249,6 +256,7 @@
 | 微信公众号京东支付 | 数据 | app/com.tencent.mm/微信公众号京东支付.js |
 | 微信公众号京东白条 | 数据 | app/com.tencent.mm/微信公众号京东白条.js |
 | 微信公众号京东购物 | 数据 | app/com.tencent.mm/微信公众号京东购物.js |
+| 微信公众号众邦银行 | 数据 | app/com.tencent.mm/微信公众号众邦银行.js |
 | 微信公众号佛山公积金 | 数据 | app/com.tencent.mm/微信公众号佛山公积金.js |
 | 微信公众号保定银行 | 数据 | app/com.tencent.mm/微信公众号保定银行.js |
 | 微信公众号光大银行信用卡 | 数据 | app/com.tencent.mm/微信公众号光大银行信用卡.js |
@@ -327,6 +335,7 @@
 | 微信支付提现 | 数据 | app/com.tencent.mm/微信支付提现.js |
 | 微信支付收款入账 | 数据 | app/com.tencent.mm/微信支付收款入账.js |
 | 微信支付智能穿戴支付 | 数据 | app/com.tencent.mm/微信支付智能穿戴支付.js |
+| 微信支付红包到账 | 数据 | app/com.tencent.mm/微信支付红包到账.js |
 | 微信支付经营收款 | 数据 | app/com.tencent.mm/微信支付经营收款.js |
 | 微信支付自动扣款 | 数据 | app/com.tencent.mm/微信支付自动扣款.js |
 | 微信支付转账到银行卡 | 数据 | app/com.tencent.mm/微信支付转账到银行卡.js |
@@ -352,6 +361,7 @@
 
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
+| 云闪付入账通知 | 通知 | notice/com.unionpay/云闪付入账通知.js |
 | 云闪付消费通知 | 通知 | notice/com.unionpay/云闪付消费通知.js |
 | 云闪付转账入账通知 | 通知 | notice/com.unionpay/云闪付转账入账通知.js |
 | 云闪付转账出账通知 | 通知 | notice/com.unionpay/云闪付转账出账通知.js |
@@ -364,6 +374,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 拼多多支付通知 | 通知 | notice/com.xunmeng.pinduoduo/拼多多支付通知.js |
+| 拼多多订单详情 | 数据 | ocr/com.xunmeng.pinduoduo/拼多多订单详情.js |
 
 ## com.yitong.bbw.mbank.android
 
