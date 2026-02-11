@@ -179,8 +179,11 @@ class Release {
       const FormData = require('form-data');
       const form = new FormData();
       
-      // 添加构建包文件
-      form.append('file', fs.createReadStream(packagePath));
+      // 添加构建包文件（已知长度，禁用分块传输，便于服务端与代理正确处理）
+      form.append('file', fs.createReadStream(packagePath), {
+        filename: path.basename(packagePath),
+        knownLength: stats.size
+      });
       
       // 添加tag版本号
       form.append('tag', tag);
