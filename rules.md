@@ -40,6 +40,7 @@
 | 短信上海农商银行 | 数据 | app/com.android.phone/短信上海农商银行.js |
 | 短信上饶银行 | 数据 | app/com.android.phone/短信上饶银行.js |
 | 短信中国农业银行 | 数据 | app/com.android.phone/短信中国农业银行.js |
+| 短信中国广电 | 数据 | app/com.android.phone/短信中国广电.js |
 | 短信中国银行 | 数据 | app/com.android.phone/短信中国银行.js |
 | 短信云南农信 | 数据 | app/com.android.phone/短信云南农信.js |
 | 短信交通银行 | 数据 | app/com.android.phone/短信交通银行.js |
@@ -124,6 +125,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 支付宝中油好客e站加油完成通知 | 数据 | app/com.eg.android.AlipayGphone/支付宝中油好客e站加油完成通知.js |
+| 支付宝五福红包 | 数据 | app/com.eg.android.AlipayGphone/支付宝五福红包.js |
 | 支付宝亲密号消费通知 | 数据 | app/com.eg.android.AlipayGphone/支付宝亲密号消费通知.js |
 | 支付宝亲情卡 | 数据 | app/com.eg.android.AlipayGphone/支付宝亲情卡.js |
 | 支付宝余利宝收益通知 | 数据 | app/com.eg.android.AlipayGphone/支付宝余利宝收益通知.js |
@@ -165,6 +167,7 @@
 | 支付宝零花钱消费 | 通知 | notice/com.eg.android.AlipayGphone/支付宝零花钱消费.js |
 | 网商银行交易提醒 | 通知 | notice/com.eg.android.AlipayGphone/网商银行交易提醒.js |
 | 支付宝基金转入 | 数据 | ocr/com.eg.android.AlipayGphone/支付宝基金转入.js |
+| 支付宝支付成功 | 数据 | ocr/com.eg.android.AlipayGphone/支付宝支付成功.js |
 | 支付宝账单详情 | 数据 | ocr/com.eg.android.AlipayGphone/支付宝账单详情.js |
 
 ## com.finshell.wallet
