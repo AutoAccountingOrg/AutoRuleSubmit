@@ -12,6 +12,12 @@
 | 招商银行消费通知 | 通知 | notice/cmb.pb/招商银行消费通知.js |
 | 招商银行转账通知 | 通知 | notice/cmb.pb/招商银行转账通知.js |
 
+## cn.com.spdb.mobilebank.per
+
+| 规则名称 | 规则类型 | 规则路径 |
+|---------|----------|----------|
+| 账户变动提醒 | 通知 | notice/cn.com.spdb.mobilebank.per/账户变动提醒.js |
+
 ## cn.dongguanbank.mbank.prd
 
 | 规则名称 | 规则类型 | 规则路径 |
@@ -63,6 +69,7 @@
 | 短信江苏银行 | 数据 | app/com.android.phone/短信江苏银行.js |
 | 短信江西农商银行 | 数据 | app/com.android.phone/短信江西农商银行.js |
 | 短信泉州公积金中心 | 数据 | app/com.android.phone/短信泉州公积金中心.js |
+| 短信浙商银行 | 数据 | app/com.android.phone/短信浙商银行.js |
 | 短信浙江农信 | 数据 | app/com.android.phone/短信浙江农信.js |
 | 短信浦发银行 | 数据 | app/com.android.phone/短信浦发银行.js |
 | 短信湖南住房公积金 | 数据 | app/com.android.phone/短信湖南住房公积金.js |
@@ -211,6 +218,7 @@
 | 美团月付支出 | 通知 | notice/com.sankuai.meituan/美团月付支出.js |
 | 美团月付自动还款 | 通知 | notice/com.sankuai.meituan/美团月付自动还款.js |
 | 美团月付退款 | 通知 | notice/com.sankuai.meituan/美团月付退款.js |
+| 美团订单支付 | 通知 | notice/com.sankuai.meituan/美团订单支付.js |
 | 美团月付消费记录 | 数据 | ocr/com.sankuai.meituan/美团月付消费记录.js |
 
 ## com.sdu.didi.psnger
@@ -317,6 +325,7 @@
 | 微信公众号美团钱包 | 数据 | app/com.tencent.mm/微信公众号美团钱包.js |
 | 微信公众号腾讯理财通 | 数据 | app/com.tencent.mm/微信公众号腾讯理财通.js |
 | 微信公众号荣基餐饮 | 数据 | app/com.tencent.mm/微信公众号荣基餐饮.js |
+| 微信公众号蓝海银行 | 数据 | app/com.tencent.mm/微信公众号蓝海银行.js |
 | 微信公众号薪职场 | 数据 | app/com.tencent.mm/微信公众号薪职场.js |
 | 微信公众号邮储银行信用卡 | 数据 | app/com.tencent.mm/微信公众号邮储银行信用卡.js |
 | 微信公众号郑州银行信用卡 | 数据 | app/com.tencent.mm/微信公众号郑州银行信用卡.js |
