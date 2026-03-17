@@ -38,6 +38,7 @@
 | 中国农业银行信用卡消费通知 | 通知 | notice/com.android.bankabc/中国农业银行信用卡消费通知.js |
 | 中国农业银行借记卡支出 | 通知 | notice/com.android.bankabc/中国农业银行借记卡支出.js |
 | 中国农业银行收入 | 通知 | notice/com.android.bankabc/中国农业银行收入.js |
+| 农业银行借记卡交易 | 数据 | ocr/com.android.bankabc/农业银行借记卡交易.js |
 
 ## com.android.phone
 
@@ -45,6 +46,7 @@
 |---------|----------|----------|
 | 短信上海农商银行 | 数据 | app/com.android.phone/短信上海农商银行.js |
 | 短信上饶银行 | 数据 | app/com.android.phone/短信上饶银行.js |
+| 短信中信银行 | 数据 | app/com.android.phone/短信中信银行.js |
 | 短信中国农业银行 | 数据 | app/com.android.phone/短信中国农业银行.js |
 | 短信中国广电 | 数据 | app/com.android.phone/短信中国广电.js |
 | 短信中国银行 | 数据 | app/com.android.phone/短信中国银行.js |
