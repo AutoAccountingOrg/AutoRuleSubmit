@@ -16,6 +16,7 @@
 
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
+| 信用卡交易提醒 | 通知 | notice/cn.com.spdb.mobilebank.per/信用卡交易提醒.js |
 | 账户变动提醒 | 通知 | notice/cn.com.spdb.mobilebank.per/账户变动提醒.js |
 
 ## cn.dongguanbank.mbank.prd
@@ -307,6 +308,7 @@
 | 微信公众号招商银行信用卡 | 数据 | app/com.tencent.mm/微信公众号招商银行信用卡.js |
 | 微信公众号收钱吧福利社 | 数据 | app/com.tencent.mm/微信公众号收钱吧福利社.js |
 | 微信公众号日照银行 | 数据 | app/com.tencent.mm/微信公众号日照银行.js |
+| 微信公众号杭州市民卡 | 数据 | app/com.tencent.mm/微信公众号杭州市民卡.js |
 | 微信公众号桂林银行 | 数据 | app/com.tencent.mm/微信公众号桂林银行.js |
 | 微信公众号桂林银行信用卡 | 数据 | app/com.tencent.mm/微信公众号桂林银行信用卡.js |
 | 微信公众号民生银行信用卡 | 数据 | app/com.tencent.mm/微信公众号民生银行信用卡.js |
