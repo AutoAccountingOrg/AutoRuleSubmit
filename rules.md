@@ -54,9 +54,11 @@
 | 短信云南农信 | 数据 | app/com.android.phone/短信云南农信.js |
 | 短信交通银行 | 数据 | app/com.android.phone/短信交通银行.js |
 | 短信京东支付 | 数据 | app/com.android.phone/短信京东支付.js |
+| 短信京东金融 | 数据 | app/com.android.phone/短信京东金融.js |
 | 短信光大银行 | 数据 | app/com.android.phone/短信光大银行.js |
 | 短信兴业银行 | 数据 | app/com.android.phone/短信兴业银行.js |
 | 短信北京银行 | 数据 | app/com.android.phone/短信北京银行.js |
+| 短信华夏信用卡 | 数据 | app/com.android.phone/短信华夏信用卡.js |
 | 短信天津银行 | 数据 | app/com.android.phone/短信天津银行.js |
 | 短信工商银行 | 数据 | app/com.android.phone/短信工商银行.js |
 | 短信广东农信 | 数据 | app/com.android.phone/短信广东农信.js |
@@ -69,9 +71,11 @@
 | 短信招商银行 | 数据 | app/com.android.phone/短信招商银行.js |
 | 短信杭州公积金中心 | 数据 | app/com.android.phone/短信杭州公积金中心.js |
 | 短信柳州银行 | 数据 | app/com.android.phone/短信柳州银行.js |
+| 短信汇丰银行 | 数据 | app/com.android.phone/短信汇丰银行.js |
 | 短信江苏银行 | 数据 | app/com.android.phone/短信江苏银行.js |
 | 短信江西农商银行 | 数据 | app/com.android.phone/短信江西农商银行.js |
 | 短信泉州公积金中心 | 数据 | app/com.android.phone/短信泉州公积金中心.js |
+| 短信泸州银行 | 数据 | app/com.android.phone/短信泸州银行.js |
 | 短信浙商银行 | 数据 | app/com.android.phone/短信浙商银行.js |
 | 短信浙江农信 | 数据 | app/com.android.phone/短信浙江农信.js |
 | 短信浦发银行 | 数据 | app/com.android.phone/短信浦发银行.js |
@@ -248,6 +252,7 @@
 
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
+| WeChatPayHK支付凭证 | 数据 | app/com.tencent.mm/WeChatPayHK支付凭证.js |
 | 微信公交扣费 | 数据 | app/com.tencent.mm/微信公交扣费.js |
 | 微信公众号Ada服务消息 | 数据 | app/com.tencent.mm/微信公众号Ada服务消息.js |
 | 微信公众号ETC助手 | 数据 | app/com.tencent.mm/微信公众号ETC助手.js |
@@ -265,6 +270,7 @@
 | 微信公众号中国邮政储蓄银行 | 数据 | app/com.tencent.mm/微信公众号中国邮政储蓄银行.js |
 | 微信公众号中国银行信用卡 | 数据 | app/com.tencent.mm/微信公众号中国银行信用卡.js |
 | 微信公众号中国银行微银行 | 数据 | app/com.tencent.mm/微信公众号中国银行微银行.js |
+| 微信公众号二维火 | 数据 | app/com.tencent.mm/微信公众号二维火.js |
 | 微信公众号交通银行信用卡买单吧 | 数据 | app/com.tencent.mm/微信公众号交通银行信用卡买单吧.js |
 | 微信公众号交通银行微银行 | 数据 | app/com.tencent.mm/微信公众号交通银行微银行.js |
 | 微信公众号京东支付 | 数据 | app/com.tencent.mm/微信公众号京东支付.js |
@@ -286,6 +292,7 @@
 | 微信公众号四川农信 | 数据 | app/com.tencent.mm/微信公众号四川农信.js |
 | 微信公众号四川农商银行 | 数据 | app/com.tencent.mm/微信公众号四川农商银行.js |
 | 微信公众号大众点评 | 数据 | app/com.tencent.mm/微信公众号大众点评.js |
+| 微信公众号大参林医药服务 | 数据 | app/com.tencent.mm/微信公众号大参林医药服务.js |
 | 微信公众号威海市商业银行 | 数据 | app/com.tencent.mm/微信公众号威海市商业银行.js |
 | 微信公众号宁波银行 | 数据 | app/com.tencent.mm/微信公众号宁波银行.js |
 | 微信公众号安徽农金电子银行 | 数据 | app/com.tencent.mm/微信公众号安徽农金电子银行.js |
