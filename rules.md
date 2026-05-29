@@ -50,6 +50,7 @@
 | 短信中信银行 | 数据 | app/com.android.phone/短信中信银行.js |
 | 短信中国农业银行 | 数据 | app/com.android.phone/短信中国农业银行.js |
 | 短信中国广电 | 数据 | app/com.android.phone/短信中国广电.js |
+| 短信中国移动 | 数据 | app/com.android.phone/短信中国移动.js |
 | 短信中国银行 | 数据 | app/com.android.phone/短信中国银行.js |
 | 短信云南农信 | 数据 | app/com.android.phone/短信云南农信.js |
 | 短信交通银行 | 数据 | app/com.android.phone/短信交通银行.js |
@@ -59,7 +60,9 @@
 | 短信兴业银行 | 数据 | app/com.android.phone/短信兴业银行.js |
 | 短信北京银行 | 数据 | app/com.android.phone/短信北京银行.js |
 | 短信华夏信用卡 | 数据 | app/com.android.phone/短信华夏信用卡.js |
+| 短信吉林银行 | 数据 | app/com.android.phone/短信吉林银行.js |
 | 短信天津银行 | 数据 | app/com.android.phone/短信天津银行.js |
+| 短信安徽农金 | 数据 | app/com.android.phone/短信安徽农金.js |
 | 短信工商银行 | 数据 | app/com.android.phone/短信工商银行.js |
 | 短信广东农信 | 数据 | app/com.android.phone/短信广东农信.js |
 | 短信广东华兴银行 | 数据 | app/com.android.phone/短信广东华兴银行.js |
@@ -88,6 +91,7 @@
 | 短信重庆公积金中心 | 数据 | app/com.android.phone/短信重庆公积金中心.js |
 | 短信重庆农村商业银行 | 数据 | app/com.android.phone/短信重庆农村商业银行.js |
 | 短信重庆银行 | 数据 | app/com.android.phone/短信重庆银行.js |
+| 短信长城华西银行 | 数据 | app/com.android.phone/短信长城华西银行.js |
 
 ## com.chinamworld.bocmbci
 
@@ -291,6 +295,7 @@
 | 微信公众号四川ETC | 数据 | app/com.tencent.mm/微信公众号四川ETC.js |
 | 微信公众号四川农信 | 数据 | app/com.tencent.mm/微信公众号四川农信.js |
 | 微信公众号四川农商银行 | 数据 | app/com.tencent.mm/微信公众号四川农商银行.js |
+| 微信公众号四川银行 | 数据 | app/com.tencent.mm/微信公众号四川银行.js |
 | 微信公众号大众点评 | 数据 | app/com.tencent.mm/微信公众号大众点评.js |
 | 微信公众号大参林医药服务 | 数据 | app/com.tencent.mm/微信公众号大参林医药服务.js |
 | 微信公众号威海市商业银行 | 数据 | app/com.tencent.mm/微信公众号威海市商业银行.js |
