@@ -5,6 +5,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 招商银行信用卡消费通知 | 通知 | notice/cmb.pb/招商银行信用卡消费通知.js |
+| 招商银行信用卡还款通知 | 通知 | notice/cmb.pb/招商银行信用卡还款通知.js |
 | 招商银行信用卡预约还款通知 | 通知 | notice/cmb.pb/招商银行信用卡预约还款通知.js |
 | 招商银行入账通知 | 通知 | notice/cmb.pb/招商银行入账通知.js |
 | 招商银行定存通知 | 通知 | notice/cmb.pb/招商银行定存通知.js |
@@ -257,12 +258,14 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | WeChatPayHK支付凭证 | 数据 | app/com.tencent.mm/WeChatPayHK支付凭证.js |
+| 哈啰顺风车订单提醒 | 数据 | app/com.tencent.mm/哈啰顺风车订单提醒.js |
 | 微信公交扣费 | 数据 | app/com.tencent.mm/微信公交扣费.js |
 | 微信公众号Ada服务消息 | 数据 | app/com.tencent.mm/微信公众号Ada服务消息.js |
 | 微信公众号ETC助手 | 数据 | app/com.tencent.mm/微信公众号ETC助手.js |
 | 微信公众号上海农商银行 | 数据 | app/com.tencent.mm/微信公众号上海农商银行.js |
 | 微信公众号上海银行 | 数据 | app/com.tencent.mm/微信公众号上海银行.js |
 | 微信公众号上海银行信用卡 | 数据 | app/com.tencent.mm/微信公众号上海银行信用卡.js |
+| 微信公众号东营银行 | 数据 | app/com.tencent.mm/微信公众号东营银行.js |
 | 微信公众号中信银行 | 数据 | app/com.tencent.mm/微信公众号中信银行.js |
 | 微信公众号中信银行信用卡 | 数据 | app/com.tencent.mm/微信公众号中信银行信用卡.js |
 | 微信公众号中原银行 | 数据 | app/com.tencent.mm/微信公众号中原银行.js |
