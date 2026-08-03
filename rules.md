@@ -13,6 +13,12 @@
 | 招商银行消费通知 | 通知 | notice/cmb.pb/招商银行消费通知.js |
 | 招商银行转账通知 | 通知 | notice/cmb.pb/招商银行转账通知.js |
 
+## cn.com.cmbc.newmbank
+
+| 规则名称 | 规则类型 | 规则路径 |
+|---------|----------|----------|
+| 民生银行信用卡交易提醒 | 通知 | notice/cn.com.cmbc.newmbank/民生银行信用卡交易提醒.js |
+
 ## cn.com.spdb.mobilebank.per
 
 | 规则名称 | 规则类型 | 规则路径 |
@@ -343,6 +349,7 @@
 | 微信公众号美团 | 数据 | app/com.tencent.mm/微信公众号美团.js |
 | 微信公众号美团钱包 | 数据 | app/com.tencent.mm/微信公众号美团钱包.js |
 | 微信公众号腾讯理财通 | 数据 | app/com.tencent.mm/微信公众号腾讯理财通.js |
+| 微信公众号苏州农商银行 | 数据 | app/com.tencent.mm/微信公众号苏州农商银行.js |
 | 微信公众号荣基餐饮 | 数据 | app/com.tencent.mm/微信公众号荣基餐饮.js |
 | 微信公众号蓝海银行 | 数据 | app/com.tencent.mm/微信公众号蓝海银行.js |
 | 微信公众号薪职场 | 数据 | app/com.tencent.mm/微信公众号薪职场.js |
