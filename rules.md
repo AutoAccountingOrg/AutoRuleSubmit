@@ -53,6 +53,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 短信上海农商银行 | 数据 | app/com.android.phone/短信上海农商银行.js |
+| 短信上海银行 | 数据 | app/com.android.phone/短信上海银行.js |
 | 短信上饶银行 | 数据 | app/com.android.phone/短信上饶银行.js |
 | 短信中信银行 | 数据 | app/com.android.phone/短信中信银行.js |
 | 短信中国农业银行 | 数据 | app/com.android.phone/短信中国农业银行.js |
@@ -153,6 +154,7 @@
 | 支付宝五福红包 | 数据 | app/com.eg.android.AlipayGphone/支付宝五福红包.js |
 | 支付宝亲密号消费通知 | 数据 | app/com.eg.android.AlipayGphone/支付宝亲密号消费通知.js |
 | 支付宝亲情卡 | 数据 | app/com.eg.android.AlipayGphone/支付宝亲情卡.js |
+| 支付宝付款码支付 | 数据 | app/com.eg.android.AlipayGphone/支付宝付款码支付.js |
 | 支付宝余利宝收益通知 | 数据 | app/com.eg.android.AlipayGphone/支付宝余利宝收益通知.js |
 | 支付宝余额宝收益通知 | 数据 | app/com.eg.android.AlipayGphone/支付宝余额宝收益通知.js |
 | 支付宝余额宝红包 | 数据 | app/com.eg.android.AlipayGphone/支付宝余额宝红包.js |
@@ -220,6 +222,7 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 京东付款通知 | 通知 | notice/com.jingdong.app.mall/京东付款通知.js |
+| 京东小金库支付 | 通知 | notice/com.jingdong.app.mall/京东小金库支付.js |
 | 京东退款通知 | 通知 | notice/com.jingdong.app.mall/京东退款通知.js |
 | 京东支付 | 数据 | ocr/com.jingdong.app.mall/京东支付.js |
 
@@ -256,6 +259,12 @@
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
 | 抖音支付 | 数据 | ocr/com.ss.android.ugc.aweme/抖音支付.js |
+
+## com.ss.android.ugc.lifeservices
+
+| 规则名称 | 规则类型 | 规则路径 |
+|---------|----------|----------|
+| 抖音团购券 | 数据 | ocr/com.ss.android.ugc.lifeservices/抖音团购券.js |
 
 ## com.tencent.mm
 
