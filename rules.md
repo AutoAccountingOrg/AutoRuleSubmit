@@ -224,6 +224,7 @@
 | 京东付款通知 | 通知 | notice/com.jingdong.app.mall/京东付款通知.js |
 | 京东小金库支付 | 通知 | notice/com.jingdong.app.mall/京东小金库支付.js |
 | 京东退款通知 | 通知 | notice/com.jingdong.app.mall/京东退款通知.js |
+| 京东钱包入账 | 通知 | notice/com.jingdong.app.mall/京东钱包入账.js |
 | 京东支付 | 数据 | ocr/com.jingdong.app.mall/京东支付.js |
 
 ## com.miui.tsmclient
