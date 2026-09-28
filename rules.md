@@ -367,6 +367,7 @@
 | 微信公众号郑州银行信用卡 | 数据 | app/com.tencent.mm/微信公众号郑州银行信用卡.js |
 | 微信公众号郑州银行微银行 | 数据 | app/com.tencent.mm/微信公众号郑州银行微银行.js |
 | 微信公众号重庆银行微银行 | 数据 | app/com.tencent.mm/微信公众号重庆银行微银行.js |
+| 微信公众号金华银行 | 数据 | app/com.tencent.mm/微信公众号金华银行.js |
 | 微信公众号长沙住房公积金 | 数据 | app/com.tencent.mm/微信公众号长沙住房公积金.js |
 | 微信公众号长沙银行 | 数据 | app/com.tencent.mm/微信公众号长沙银行.js |
 | 微信公众号饿了么本地生活 | 数据 | app/com.tencent.mm/微信公众号饿了么本地生活.js |
