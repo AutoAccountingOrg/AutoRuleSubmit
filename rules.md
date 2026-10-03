@@ -60,6 +60,7 @@
 | 短信中国广电 | 数据 | app/com.android.phone/短信中国广电.js |
 | 短信中国移动 | 数据 | app/com.android.phone/短信中国移动.js |
 | 短信中国银行 | 数据 | app/com.android.phone/短信中国银行.js |
+| 短信乐山市商业银行 | 数据 | app/com.android.phone/短信乐山市商业银行.js |
 | 短信云南农信 | 数据 | app/com.android.phone/短信云南农信.js |
 | 短信交通银行 | 数据 | app/com.android.phone/短信交通银行.js |
 | 短信京东支付 | 数据 | app/com.android.phone/短信京东支付.js |
