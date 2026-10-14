@@ -165,6 +165,7 @@
 | 支付宝商家收款 | 数据 | app/com.eg.android.AlipayGphone/支付宝商家收款.js |
 | 支付宝商家转账 | 数据 | app/com.eg.android.AlipayGphone/支付宝商家转账.js |
 | 支付宝基金 | 数据 | app/com.eg.android.AlipayGphone/支付宝基金.js |
+| 支付宝基金买入确认 | 数据 | app/com.eg.android.AlipayGphone/支付宝基金买入确认.js |
 | 支付宝小猪存钱罐 | 数据 | app/com.eg.android.AlipayGphone/支付宝小猪存钱罐.js |
 | 支付宝小荷包 | 数据 | app/com.eg.android.AlipayGphone/支付宝小荷包.js |
 | 支付宝悄悄攒自动攒入 | 数据 | app/com.eg.android.AlipayGphone/支付宝悄悄攒自动攒入.js |
