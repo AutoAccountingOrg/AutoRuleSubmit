@@ -56,6 +56,7 @@
 | 短信上海银行 | 数据 | app/com.android.phone/短信上海银行.js |
 | 短信上饶银行 | 数据 | app/com.android.phone/短信上饶银行.js |
 | 短信中信银行 | 数据 | app/com.android.phone/短信中信银行.js |
+| 短信中原银行 | 数据 | app/com.android.phone/短信中原银行.js |
 | 短信中国农业银行 | 数据 | app/com.android.phone/短信中国农业银行.js |
 | 短信中国广电 | 数据 | app/com.android.phone/短信中国广电.js |
 | 短信中国移动 | 数据 | app/com.android.phone/短信中国移动.js |
