@@ -113,6 +113,7 @@
 
 | 规则名称 | 规则类型 | 规则路径 |
 |---------|----------|----------|
+| 中国银行动账提醒 | 通知 | notice/com.chinamworld.main/中国银行动账提醒.js |
 | 银行动账提醒 | 通知 | notice/com.chinamworld.main/银行动账提醒.js |
 
 ## com.cib.xyk
